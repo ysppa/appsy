@@ -7,6 +7,22 @@ export default function Alert(props) {
     time: props.time ? props.time : 5000,
   });
 
+  const icon = () => {
+    switch (color) {
+      case "success":
+        return "check2-all";
+
+      case "danger":
+        return "exclamation-octagon";
+
+      case "warning":
+        return "exclamation-triangle";
+
+      default:
+        return "info-circle";
+    }
+  };
+
   useEffect(() => {
     setState({ ...state, ...props });
 
@@ -27,7 +43,10 @@ export default function Alert(props) {
             data-bs-dismiss="alert"
             aria-label="Close"
           ></button> */}
-          <strong className="text-capitalize">{color}!</strong> {message}
+          <strong className="text-capitalize">
+            <span className={`bi bi-${icon()}`}></span>
+          </strong>{" "}
+          {message}
         </div>
       ) : (
         <></>

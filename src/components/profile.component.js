@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../models";
 
-export default function Avatar(props = {}) {
+export default function Profile(props = {}) {
   const [user, setUser] = useState(new User());
 
   useEffect(() => {
@@ -11,12 +11,8 @@ export default function Avatar(props = {}) {
   }, [props]);
 
   return (
-    <figure className="logo m-0" style={props.style}>
-      <img
-        className="card-img-top h-100 w-100"
-        src={user.avatar}
-        alt={user.initials()}
-      />
-    </figure>
+    <>
+      <h1>Profile - {user.username}</h1>
+    </>
   );
 }

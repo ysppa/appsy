@@ -12,12 +12,13 @@ import RegisterPage from "./pages/RegisterPage";
 import authReducer from "./reducers/auth.reducer";
 import FeedsPage from "./pages/FeedsPage";
 import { User } from "./models";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const [authState, authDispatch] = useReducer(authReducer, {});
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userData"));
+    const user = JSON.parse(localStorage.getItem("userData")) || {};
     authDispatch({
       type: "LOAD_INITIAL_STATE",
       payload: {
@@ -38,6 +39,15 @@ function App() {
             <Route
               path="/feeds"
               element={<FeedsPage auth={{ state: authState }} />}
+            />
+            <Route
+              path="/profile/*"
+              element={
+                <ProfilePage
+                  auth={{ state: authState }}
+                  authDispatch={authDispatch}
+                />
+              }
             />
           </>
         ) : (
