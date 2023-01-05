@@ -1,0 +1,22 @@
+.bgCoverPicture,
+.bgLogo {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.CoverPictureCardContainer {
+  padding-top: 20rem;
+}
+
+.CoverPictureCard {
+  height: 12rem;
+}
+
+.LogoContainer {
+  position: absolute;
+  left: 25px;
+  bottom: -45px;
+  overflow: hidden;
+  width: 95px;
+  height: 95px;
+}

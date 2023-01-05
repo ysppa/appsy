@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import "./App.css";
 import React, { useEffect, useReducer } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -10,6 +11,7 @@ import SpacePage from "./pages/SpacePage";
 import RegisterPage from "./pages/RegisterPage";
 import authReducer from "./reducers/auth.reducer";
 import FeedsPage from "./pages/FeedsPage";
+import { User } from "./models";
 
 function App() {
   const [authState, authDispatch] = useReducer(authReducer, {});
@@ -19,7 +21,7 @@ function App() {
     authDispatch({
       type: "LOAD_INITIAL_STATE",
       payload: {
-        user: user,
+        user: new User(user),
         userSignedIn: user !== null && Number(user.id) > 0,
       },
     });
@@ -42,7 +44,7 @@ function App() {
           <></>
         )}
         <Route
-          path="/space/:slug"
+          path="/space/:slug/*"
           element={<SpacePage auth={{ state: authState }} />}
         />
         <Route

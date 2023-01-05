@@ -1,8 +1,9 @@
 export default class User {
-  constructor(props) {
-    this.id = props ? props.id : null;
-    this.username = props ? props.username : "";
-    this.email = props ? props.email : "";
+  constructor(props = {}) {
+    this.id = props.id || null;
+    this.username = props.username || "Anonymous";
+    this.email = props.email || "";
+    this.avatar = props.avatar || "/assets/images/Logo.jpeg";
   }
 
   initials() {

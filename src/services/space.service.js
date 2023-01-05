@@ -1,6 +1,9 @@
 import http from "./../http-common";
 
 class SpaceService {
+  get(spaceId, data = {}) {
+    return http.get(`/spaces/${spaceId}`, data);
+  }
   getAll(data = {}) {
     return http.get(`/spaces`, data);
   }

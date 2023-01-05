@@ -1,3 +1,7 @@
 .navbar .bi {
   font-size: x-large;
 }
+
+.navbar-brand {
+  font-weight: 800;
+}

@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Field, Form, Formik } from "formik";
-import { User } from "../models";
 import * as Yup from "yup";
 import spaceService from "../services/space.service";
 import Alert from "./alert.component";
+import { useNavigate } from "react-router-dom";
 
-export default function SpaceForm(props) {
-  const [user, setUser] = useState(new User(props.user));
+export default function SpaceForm(props = {}) {
+  const [user, setUser] = useState(props.user);
+  const [modal, setModal] = useState(props.modal);
   const validation = Yup.object({
     name: Yup.string().required(),
     description: Yup.string().required(),
   });
   const [alert, setAlert] = useState({ color: "info", message: "" });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (props.user) {
-      setUser(props.user);
-    }
+    setUser(props.user);
+    setModal(props.modal);
 
     return () => {};
   }, [props]);
@@ -28,20 +29,23 @@ export default function SpaceForm(props) {
           <aside className="col-12 col-lg-12 mx-auto">
             <Alert color={alert.color} message={alert.message} />
             <Formik
-              initialValues={{ name: user.username, description: "" }}
+              initialValues={{
+                name: `${user.username}'s Space`,
+                description: "",
+              }}
               validationSchema={validation}
               onSubmit={(values, { setSubmitting }) => {
                 spaceService
                   .create(user.id, values)
                   .then((res) => {
-                    console.log(res);
+                    modal.hide();
                     setAlert({ color: "success", message: res.data.message });
+                    setTimeout(() => {
+                      navigate(`/space/${res.data.space.id}`);
+                    }, 1500);
                   })
                   .catch((err) => {
-                    console.log(err);
                     setAlert({ color: "danger", message: err.message });
-                  })
-                  .finally(() => {
                     setSubmitting(false);
                   });
               }}

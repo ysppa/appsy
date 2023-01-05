@@ -28,8 +28,8 @@ export default function Navbar(props) {
   return (
     <>
       {authState.userSignedIn ? (
-        <div className="px-xl-5 bg-dark">
-          <nav className="navbar navbar-dark bg-dark navbar-expand-lg px-4 px-xl-5 py-xl-0">
+        <div className="px-xl-5 bg-primary">
+          <nav className="navbar navbar-expand-lg px-4 px-xl-5 py-xl-0">
             <Link className="navbar-brand" to="/">
               Appsy
             </Link>
@@ -109,9 +109,9 @@ export default function Navbar(props) {
                   </div>
                 </li>
                 {location.pathname.includes("/space/") ? (
-                  <li className="nav-item">
+                  <li className="nav-item d-flex align-items-center">
                     <Link
-                      className="btn btn-danger rounded-pill mt-2 ms-3"
+                      className="btn btn-danger rounded-pill ms-3"
                       type="button"
                     >
                       Add new question

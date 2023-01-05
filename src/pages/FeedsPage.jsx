@@ -4,10 +4,11 @@ import { Modal } from "bootstrap";
 import SpaceForm from "../components/space.form.component";
 import spaceService from "../services/space.service";
 import { Link } from "react-router-dom";
+import Avatar from "../components/avatar.component";
 
 export default function FeedsPage(props) {
   const [auth, setAuthState] = useState({});
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(new User());
   const [modal, setModal] = useState(undefined);
   const [spaces, setSpaces] = useState([]);
 
@@ -19,7 +20,7 @@ export default function FeedsPage(props) {
 
   useEffect(() => {
     if (auth && auth.user) {
-      setUser(new User(auth.user));
+      setUser(auth.user);
     }
   }, [auth]);
 
@@ -104,7 +105,7 @@ export default function FeedsPage(props) {
                     </button>
                   </div>
                   <div className="modal-body">
-                    <SpaceForm user={user}></SpaceForm>
+                    <SpaceForm user={user} modal={modal}></SpaceForm>
                   </div>
                 </div>
               </div>
@@ -117,13 +118,7 @@ export default function FeedsPage(props) {
                   <form>
                     <section className="row">
                       <aside className="col-2 col-xl-1">
-                        <figure className="logo">
-                          <img
-                            className="card-img-top"
-                            src="holder.js/100px180/"
-                            alt={user ? user.initials() : "No img"}
-                          />
-                        </figure>
+                        <Avatar user={user} />
                       </aside>
                       <aside className="col-10 col-xl-11">
                         <div className="form-group mb-4">

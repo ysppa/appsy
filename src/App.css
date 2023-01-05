@@ -1,7 +1,56 @@
+:root {
+  --bs-body-font-size: 0.75rem;
+  --bs-body-color: #212529;
+  --bs-primary-rgb: 16, 252, 167;
+  --bs-danger-rgb: 241, 80, 72;
+  --bs-link-color: rgb(var(--bs-primary-rgb));
+  --bs-link-hover-color: rgb(var(--bs-primary-rgb));
+}
+
+.nav {
+  --bs-nav-link-color: var(--bs-body-color);
+}
+
+.nav-tabs {
+  --bs-nav-tabs-link-active-bg: transparent;
+  --bs-nav-tabs-link-active-border-color: transparent transparent
+    rgb(var(--bs-primary-rgb));
+  --bs-nav-tabs-link-hover-border-color: transparent;
+  --bs-nav-tabs-link-active-border-width: 2px;
+}
+
+.nav-tabs .nav-link.active {
+  border-width: var(--bs-nav-tabs-link-active-border-width);
+}
+
 body {
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: #f8f9fa;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+.btn {
+  --bs-btn-font-size: var(--bs-body-font-size);
+}
+
+input,
+input.form-control {
+  font-size: var(--bs-body-font-size);
 }
 
 .App-logo {
@@ -42,10 +91,10 @@ body {
 .logo {
   border: 1px solid #ced4da;
   border-radius: 50%;
-  min-width: 40px;
-  min-height: 40px;
-  width: 40px;
-  height: 40px;
+  min-width: 32px;
+  min-height: 32px;
+  width: 32px;
+  height: 32px;
   overflow: hidden;
 }
 
@@ -55,4 +104,23 @@ body {
   border-color: #599dff;
   outline: 0;
   box-shadow: 0 0 0 0rem rgb(13 110 253 / 25%);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.backdrop-blur {
+  filter: blur(5px);
+  z-index: -1;
+}
+
+.btn-danger {
+  --bs-btn-bg: rgb(var(--bs-danger-rgb));
+  --bs-btn-border-color: var(--bs-danger-rgb);
 }
