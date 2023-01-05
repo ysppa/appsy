@@ -35,12 +35,12 @@ export default function Navbar(props) {
             </Link>
             <ul className="navbar-nav me-auto mt-2 mt-lg-0">
               <li className="nav-item ms-3">
-                <Link className="nav-link" to="/" aria-current="page">
+                <Link className="nav-link" to="/home" aria-current="page">
                   <span className="bi bi-house"></span>
                 </Link>
               </li>
               <li className="nav-item ms-3">
-                <Link className="nav-link" to="/" aria-current="page">
+                <Link className="nav-link" to="/feeds" aria-current="page">
                   <span className="bi bi-newspaper"></span>
                 </Link>
               </li>

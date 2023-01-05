@@ -9,6 +9,7 @@ import Navbar from "./components/navbar.component";
 import SpacePage from "./pages/SpacePage";
 import RegisterPage from "./pages/RegisterPage";
 import authReducer from "./reducers/auth.reducer";
+import FeedsPage from "./pages/FeedsPage";
 
 function App() {
   const [authState, authDispatch] = useReducer(authReducer, {});
@@ -30,6 +31,16 @@ function App() {
     <div className="App">
       <Navbar auth={{ state: authState }} />
       <Routes>
+        {authState.userSignedIn ? (
+          <>
+            <Route
+              path="/feeds"
+              element={<FeedsPage auth={{ state: authState }} />}
+            />
+          </>
+        ) : (
+          <></>
+        )}
         <Route
           path="/space/:slug"
           element={<SpacePage auth={{ state: authState }} />}
