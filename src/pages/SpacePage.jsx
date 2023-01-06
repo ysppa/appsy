@@ -6,12 +6,15 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import SpaceAbout from "../components/space.about.component";
 import Questions from "../components/questions.component";
 import Posts from "../components/posts.component";
+import QuestionPage from "./QuestionPage";
 
 export default function SpacePage(props) {
   const [user, setUser] = useState({});
   const [space, setSpace] = useState(new Space());
   const location = useLocation();
   const [tab, setTab] = useState(location.pathname.split("/")[3]);
+  const [questionId, setQuestionId] = useState(location.pathname.split("/")[4]);
+  const [alert, setAlert] = useState({ color: "info", message: "" });
 
   useEffect(() => {
     if (props.auth.state) {
@@ -23,6 +26,7 @@ export default function SpacePage(props) {
 
   useEffect(() => {
     setTab(location.pathname.split("/")[3]);
+    setQuestionId(location.pathname.split("/")[4]);
 
     return () => {};
   }, [location]);
@@ -37,7 +41,7 @@ export default function SpacePage(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        setAlert({ color: "danger", message: err.message });
       });
     return () => {};
   }, []);
@@ -48,20 +52,33 @@ export default function SpacePage(props) {
         className="CoverPictureCardContainer card border-0 backdrop-blur position-absolute w-100"
         style={{
           backgroundImage: `url(${space.coverPicture})`,
+          backgroundSize: `150%`,
         }}
       ></header>
-      <div className="container">
+      <div className={`container ${questionId === undefined ? "" : "mt-4"}`}>
         <header>
           <div className="">
-            <div className="h-100 pb-5">
+            <div
+              className={`h-100 pb-5 ${
+                questionId === undefined ? "" : "d-flex"
+              }`}
+            >
               <div
-                className="CoverPictureCard card rounded-0 rounded-bottom border-0"
-                style={{
-                  backgroundImage: `url(${space.coverPicture})`,
-                }}
+                className={`${
+                  questionId === undefined ? "CoverPictureCard" : ""
+                } card rounded-0 rounded-bottom border-0`}
+                style={
+                  questionId === undefined
+                    ? {
+                        backgroundImage: `url(${space.coverPicture})`,
+                      }
+                    : { backgroundColor: "transparent" }
+                }
               >
                 <figure
-                  className="LogoContainer bgLogo bg-light rounded"
+                  className={`LogoContainer bgLogo bg-light rounded ${
+                    questionId === undefined ? "position-absolute" : ""
+                  }`}
                   style={{ backgroundImage: `url(${space.logo})` }}
                 ></figure>
               </div>
@@ -75,34 +92,38 @@ export default function SpacePage(props) {
         <div className="card-body">
           <section className="row">
             <aside className="col-12 col-lg-9 col-xl-8">
-              <ul className="nav nav-tabs" id="spaceMenuTab" role="tablist">
-                <li className="nav-item" role="presentation">
-                  <Link
-                    to={"about"}
-                    className={`nav-link ${tab === "about" ? "active" : ""}`}
-                  >
-                    About
-                  </Link>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <Link
-                    to={"posts"}
-                    className={`nav-link ${tab === "posts" ? "active" : ""}`}
-                  >
-                    Posts
-                  </Link>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <Link
-                    to={"questions"}
-                    className={`nav-link ${
-                      !["about", "posts"].includes(tab) ? "active" : ""
-                    }`}
-                  >
-                    Questions
-                  </Link>
-                </li>
-              </ul>
+              {questionId === undefined ? (
+                <ul className="nav nav-tabs" id="spaceMenuTab" role="tablist">
+                  <li className="nav-item" role="presentation">
+                    <Link
+                      to={"about"}
+                      className={`nav-link ${tab === "about" ? "active" : ""}`}
+                    >
+                      About
+                    </Link>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <Link
+                      to={"posts"}
+                      className={`nav-link ${tab === "posts" ? "active" : ""}`}
+                    >
+                      Posts
+                    </Link>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <Link
+                      to={"questions"}
+                      className={`nav-link ${
+                        !["about", "posts"].includes(tab) ? "active" : ""
+                      }`}
+                    >
+                      Questions
+                    </Link>
+                  </li>
+                </ul>
+              ) : (
+                <></>
+              )}
 
               <div className="tab-content">
                 <div
@@ -112,6 +133,16 @@ export default function SpacePage(props) {
                   aria-labelledby="questions-tab"
                 >
                   <Routes>
+                    <Route
+                      path="/questions/:slug"
+                      element={
+                        <QuestionPage
+                          user={user}
+                          space={space}
+                          questionId={questionId}
+                        />
+                      }
+                    />
                     <Route
                       path="/about"
                       element={<SpaceAbout space={space} />}

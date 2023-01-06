@@ -2,6 +2,7 @@
 .bgLogo {
   background-size: cover;
   background-repeat: no-repeat;
+  background-color: transparent;
 }
 
 .CoverPictureCardContainer {
@@ -10,10 +11,10 @@
 
 .CoverPictureCard {
   height: 12rem;
+  background-color: transparent;
 }
 
 .LogoContainer {
-  position: absolute;
   left: 25px;
   bottom: -45px;
   overflow: hidden;

@@ -5,7 +5,7 @@ export default function Avatar(props = {}) {
   const [user, setUser] = useState(new User());
 
   useEffect(() => {
-    setUser(props.user);
+    setUser(new User(props.user));
 
     return () => {};
   }, [props]);

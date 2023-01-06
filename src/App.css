@@ -5,6 +5,13 @@
   --bs-danger-rgb: 241, 80, 72;
   --bs-link-color: rgb(var(--bs-primary-rgb));
   --bs-link-hover-color: rgb(var(--bs-primary-rgb));
+  --transition-duration: 150ms;
+}
+
+section,
+aside,
+article {
+  transition-duration: var(--transition-duration);
 }
 
 .nav {
@@ -48,8 +55,7 @@ h6 {
   --bs-btn-font-size: var(--bs-body-font-size);
 }
 
-input,
-input.form-control {
+.form-control {
   font-size: var(--bs-body-font-size);
 }
 

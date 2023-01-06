@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "./../logo.svg";
+import { Link } from "react-router-dom";
 
 export default function HomePage(props) {
   const [authState, setAuthState] = useState({});
@@ -15,9 +16,24 @@ export default function HomePage(props) {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h5>Welcome {authState.user ? authState.user.username : ""}</h5>
-        <p>
-          Edit <code>src/pages/HomePage.jsx</code> and save to reload.
-        </p>
+        {!authState.userSignedIn ? (
+          <div>
+            <section className="d-flex justify-content-center">
+              <aside>
+                <Link to={"/login"} className="btn btn-primary">
+                  Login
+                </Link>
+              </aside>
+              <aside className="ms-4">
+                <Link to={"/register"} className="btn btn-link">
+                  Sign up
+                </Link>
+              </aside>
+            </section>
+          </div>
+        ) : (
+          <></>
+        )}
       </header>
     </>
   );

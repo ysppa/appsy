@@ -5,12 +5,14 @@ import SpaceForm from "../components/space.form.component";
 import spaceService from "../services/space.service";
 import { Link } from "react-router-dom";
 import Avatar from "../components/avatar.component";
+import Alert from "../components/alert.component";
 
 export default function FeedsPage(props) {
   const [auth, setAuthState] = useState({});
   const [user, setUser] = useState(new User());
   const [modal, setModal] = useState(undefined);
   const [spaces, setSpaces] = useState([]);
+  const [alert, setAlert] = useState({ color: "info", message: "" });
 
   useEffect(() => {
     setAuthState(props.auth.state);
@@ -32,7 +34,7 @@ export default function FeedsPage(props) {
           setSpaces(res.data.spaces);
         })
         .catch((err) => {
-          console.log(err);
+          setAlert({ color: "danger", message: err.message });
         });
     }
 
@@ -157,6 +159,7 @@ export default function FeedsPage(props) {
                 </div>
               </div>
             </section>
+            <Alert {...alert} />
           </aside>
         </section>
       </div>
