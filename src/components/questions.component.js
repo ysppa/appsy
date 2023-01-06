@@ -7,6 +7,8 @@ import Alert from "./alert.component";
 import Question from "../models/question.model";
 import Avatar from "./avatar.component";
 import QuestionComponent from "./question.component";
+import { Modal } from "bootstrap";
+import AnswerModalComponent from "./answer.modal.component";
 
 export default function Questions(props = {}) {
   const [user, setUser] = useState(new User());
@@ -16,10 +18,20 @@ export default function Questions(props = {}) {
     new Question(),
     new Question(),
   ]);
+  const [currentQuestion, setCurrentQuestion] = useState(new Question());
   const validation = Yup.object({
     title: Yup.string().required(),
   });
   const [alert, setAlert] = useState();
+  const [modal, setModal] = useState();
+
+  const reply = (question) => {
+    if (question.id === currentQuestion.id) {
+      modal.show();
+    } else {
+      setCurrentQuestion(question);
+    }
+  };
 
   useEffect(() => {
     setSpace(new Space(props.space));
@@ -43,6 +55,26 @@ export default function Questions(props = {}) {
     }
     return () => {};
   }, [space]);
+
+  useEffect(() => {
+    if (currentQuestion.id) {
+      setModal(new Modal(".modal", { backdrop: "static" }));
+    }
+
+    return () => {};
+  }, [currentQuestion]);
+
+  useEffect(() => {
+    if (modal) {
+      modal.show();
+    }
+
+    return () => {};
+  }, [modal]);
+
+  useEffect(() => {
+    return () => {};
+  }, []);
 
   return (
     <>
@@ -105,10 +137,22 @@ export default function Questions(props = {}) {
             key={key}
             className="list-group-item list-group-item-action rounded border-0 p-0 my-2"
           >
-            <QuestionComponent space={space} question={question} />
+            <QuestionComponent
+              space={space}
+              question={question}
+              answer={reply}
+              className=""
+            />
           </li>
         ))}
       </ul>
+      <AnswerModalComponent
+        user={user}
+        space={space}
+        question={currentQuestion}
+        setQuestion={setCurrentQuestion}
+        modal={modal}
+      />
     </>
   );
 }

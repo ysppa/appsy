@@ -14,7 +14,6 @@ export default function SpacePage(props) {
   const location = useLocation();
   const [tab, setTab] = useState(location.pathname.split("/")[3]);
   const [questionId, setQuestionId] = useState(location.pathname.split("/")[4]);
-  const [alert, setAlert] = useState();
 
   useEffect(() => {
     if (props.auth.state) {
@@ -40,9 +39,7 @@ export default function SpacePage(props) {
           setSpace(new Space(res.data.space));
         }
       })
-      .catch((err) => {
-        setAlert({ color: "danger", message: err.message });
-      });
+      .catch((err) => {});
     return () => {};
   }, []);
 

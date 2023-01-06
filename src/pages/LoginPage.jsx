@@ -66,7 +66,7 @@ export default function LoginPage(props) {
             >
               {({ isSubmitting }) => (
                 <Form>
-                  <Alert message={alert.message} color={alert.color} />
+                  <Alert {...alert} />
                   <h2 className="text-center mb-4">
                     Login{" "}
                     {authState.userSignedIn

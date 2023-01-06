@@ -21,7 +21,7 @@ export default function RegisterPage(props) {
       <div className="Register">
         <section className="row">
           <aside className="col-lg-5 col-xl-4 mx-auto my-5">
-            <Alert message={alert.message} color={alert.color} />
+            <Alert {...alert} />
             <h2 className="text-center mb-4">Register</h2>
             <Formik
               initialValues={{

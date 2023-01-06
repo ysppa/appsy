@@ -14,7 +14,7 @@ export default function Avatar(props = {}) {
     <figure className="logo m-0" style={props.style}>
       <img
         className="card-img-top h-100 w-100"
-        src={user.avatar}
+        src={user.avatar || user.logo}
         alt={user.initials()}
       />
     </figure>

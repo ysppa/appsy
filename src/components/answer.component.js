@@ -7,7 +7,6 @@ import "./answer.component.css";
 export default function AnswerComponent(props = {}) {
   const [answer, setAnswer] = useState(new Answer());
   const [user, setUser] = useState(new User());
-  const [isRemoving, setIsRemoving] = useState(false);
 
   useEffect(() => {
     setAnswer(new Answer(props.answer));
@@ -36,7 +35,6 @@ export default function AnswerComponent(props = {}) {
               onClick={() => {
                 // if (window.confirm("Are you sure?")) {
                 props.remove(answer);
-                setIsRemoving(true);
                 // }
               }}
             >

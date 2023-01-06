@@ -27,7 +27,7 @@ export default function SpaceForm(props = {}) {
       <div className="SpaceForm">
         <section className="row">
           <aside className="col-12 col-lg-12 mx-auto">
-            <Alert color={alert.color} message={alert.message} />
+            <Alert {...alert} />
             <Formik
               initialValues={{
                 name: `${user.username}'s Space`,

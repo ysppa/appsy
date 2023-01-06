@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
-import { Answer, Question } from "../models";
+import { Question } from "../models";
 import answerService from "./../services/answer.service";
 import Alert from "./alert.component";
 
@@ -20,18 +20,13 @@ export default function AnswerForm(props = {}) {
           answerService
             .create(props.user.id, props.space.id, props.question.id, values)
             .then((res) => {
-              setAlert({
-                color: "success",
-                message: res.data.message,
-                show: true,
-              });
               props.question.addAnswer({
                 ...res.data.answer,
                 user: props.user,
               });
               props.setQuestion(new Question(props.question));
-              // props.modal.hide();
               setValues({ content: "" });
+              props.modal.hide();
             })
             .catch((err) => {
               setAlert({ color: "danger", message: err.message, show: true });

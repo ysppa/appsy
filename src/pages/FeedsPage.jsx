@@ -57,7 +57,7 @@ export default function FeedsPage(props) {
               onClick={() => {
                 modal.show();
               }}
-              className="btn btn-light"
+              className="btn btn-dark w-100 mb-4"
             >
               <span>Create space</span>
             </button>
@@ -69,8 +69,12 @@ export default function FeedsPage(props) {
                     key={key}
                     className="list-group-item list-group-item-action border-0 bg-transparent"
                   >
-                    <Link to={`/space/${space.id}`} className="nav-link">
-                      {space.name}
+                    <Link
+                      to={`/space/${space.id}`}
+                      className="nav-link d-flex align-items-center"
+                    >
+                      <Avatar user={space} />
+                      <span className="ms-2">{space.name}</span>
                     </Link>
                   </li>
                 ))}
