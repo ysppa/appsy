@@ -15,7 +15,7 @@ export default function ProfilePage(props = {}) {
   const validation = Yup.object({});
   const location = useLocation();
   const [tab, setTab] = useState(location.pathname.split("/")[2]);
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
 
   useEffect(() => {
     setTab(location.pathname.split("/")[2]);

@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
+import "./alert.component.css";
 
 export default function Alert(props) {
   const [state, setState] = useState({
     color: props.color ? props.color : "info",
     message: props.message ? props.message : "",
     time: props.time ? props.time : 5000,
+    show: props.show || false,
   });
 
+  const hide = () => {
+    setState({ ...state, show: false });
+  };
+
   const icon = () => {
-    switch (color) {
+    switch (state.color) {
       case "success":
         return "check2-all";
 
@@ -29,28 +35,27 @@ export default function Alert(props) {
     return () => {};
   }, [props]);
 
-  const { color, message } = state;
   return (
     <>
-      {message ? (
-        <div
-          className={`alert alert-${color} alert-dismissible border border-${color} fade show`}
-          role="alert"
-        >
-          {/* <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button> */}
-          <strong className="text-capitalize">
-            <span className={`bi bi-${icon()}`}></span>
-          </strong>{" "}
-          {message}
-        </div>
-      ) : (
-        <></>
-      )}
+      <div
+        className={`Alert alert alert-${
+          state.color
+        } alert-dismissible border border-${state.color} ${
+          state.show ? "show" : ""
+        }`}
+        role="alert"
+      >
+        <button
+          type="button"
+          className="btn-close"
+          aria-label="Close"
+          onClick={() => hide()}
+        ></button>
+        <strong className="text-capitalize">
+          <span className={`bi bi-${icon()}`}></span>
+        </strong>{" "}
+        {state.message}
+      </div>
     </>
   );
 }

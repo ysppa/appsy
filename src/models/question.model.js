@@ -1,3 +1,5 @@
+import Answer from "./answer.model";
+
 export default class Question {
   constructor(props = {}) {
     this.id = props.id || null;
@@ -6,6 +8,14 @@ export default class Question {
     this.followers = props.followers || [];
     this.createdAt = new Date(props.createdAt || null);
     this.updatedAt = new Date(props.updatedAt || null);
+  }
+
+  removeAnswer(answerId) {
+    this.answers = this.answers.filter((a) => a.id !== answerId);
+  }
+
+  addAnswer(answer) {
+    this.answers.unshift(new Answer({ ...answer }));
   }
 
   strAnswers() {

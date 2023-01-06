@@ -12,7 +12,7 @@ export default function FeedsPage(props) {
   const [user, setUser] = useState(new User());
   const [modal, setModal] = useState(undefined);
   const [spaces, setSpaces] = useState([]);
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
 
   useEffect(() => {
     setAuthState(props.auth.state);

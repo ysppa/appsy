@@ -6,7 +6,7 @@ import answerService from "./../services/answer.service";
 import Alert from "./alert.component";
 
 export default function AnswerForm(props = {}) {
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
   const validation = Yup.object({
     content: Yup.string().required(),
   });
@@ -16,17 +16,25 @@ export default function AnswerForm(props = {}) {
       <Formik
         initialValues={{ content: "" }}
         validationSchema={validation}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, setValues }) => {
           answerService
             .create(props.user.id, props.space.id, props.question.id, values)
             .then((res) => {
-              setAlert({ color: "success", message: res.data.message });
-              props.question.answers.push(new Answer(res.data.answer));
+              setAlert({
+                color: "success",
+                message: res.data.message,
+                show: true,
+              });
+              props.question.addAnswer({
+                ...res.data.answer,
+                user: props.user,
+              });
               props.setQuestion(new Question(props.question));
-              props.modal.hide();
+              // props.modal.hide();
+              setValues({ content: "" });
             })
             .catch((err) => {
-              setAlert({ color: "danger", message: err.message });
+              setAlert({ color: "danger", message: err.message, show: true });
             })
             .finally(() => {
               setSubmitting(false);

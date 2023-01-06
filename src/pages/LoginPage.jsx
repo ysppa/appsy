@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import store from "./../services/storage.service";
 
 export default function LoginPage(props) {
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
   const [authStateReducer, authDispatch] = useReducer(reducer, {});
   const [authState, setAuthState] = useState(authStateReducer);
   // const navigate = useNavigate();

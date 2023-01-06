@@ -8,16 +8,32 @@ import Avatar from "../components/avatar.component";
 import { Modal } from "bootstrap";
 import AnswerForm from "../components/answer.form.component";
 import AnswerComponent from "../components/answer.component";
+import answerService from "../services/answer.service";
 
 export default function QuestionPage(props = {}) {
   const [user, setUser] = useState(new User());
   const [space, setSpace] = useState(new Space());
   const [question, setQuestion] = useState(new Question());
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
   const reply = () => {
-    // question.answers.push(new Answer());
-    // setQuestion(new Question(question));
     modal.show();
+  };
+  const removeAnswer = (answer) => {
+    setAlert({ color: "info", message: "Removing...", show: true });
+    answerService
+      .delete(user.id, space.id, question.id, answer.id)
+      .then((res) => {
+        setAlert({ color: "success", message: res.data.message, show: true });
+        question.removeAnswer(answer.id);
+        setQuestion(new Question(question));
+      })
+      .catch((err) => {
+        setAlert({
+          color: "danger",
+          message: err.response.data.message || err.message,
+          show: true,
+        });
+      });
   };
   const [modal, setModal] = useState();
 
@@ -58,7 +74,15 @@ export default function QuestionPage(props = {}) {
         className="mb-2"
       />
       {question.answers.map((a, key) => (
-        <AnswerComponent key={key} user={user} answer={a} className="mb-2" />
+        <AnswerComponent
+          key={key}
+          user={user}
+          space={space}
+          question={question}
+          answer={a}
+          remove={removeAnswer}
+          className="mb-2"
+        />
       ))}
       <div
         className="modal fade"

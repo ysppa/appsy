@@ -7,6 +7,12 @@ class AnswerService {
       data
     );
   }
+  delete(userId, spaceId, questionId, id, data = {}) {
+    return http.delete(
+      `/answers/${id}/users/${userId}/spaces/${spaceId}/questions/${questionId}`,
+      data
+    );
+  }
 }
 
 export default new AnswerService();

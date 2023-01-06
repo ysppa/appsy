@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import auth from "../services/auth.service";
 
 export default function RegisterPage(props) {
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
   const validation = Yup.object({
     username: Yup.string().required(),
     password: Yup.string()

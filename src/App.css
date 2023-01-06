@@ -6,6 +6,7 @@
   --bs-link-color: rgb(var(--bs-primary-rgb));
   --bs-link-hover-color: rgb(var(--bs-primary-rgb));
   --transition-duration: 150ms;
+  --transition-property: all;
 }
 
 section,

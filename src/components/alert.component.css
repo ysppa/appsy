@@ -1,0 +1,10 @@
+.Alert {
+  transition-duration: 250ms;
+  position: fixed;
+  bottom: 1.5rem;
+  right: -150%;
+}
+
+.Alert.show {
+  right: 2.5rem;
+}

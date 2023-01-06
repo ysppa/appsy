@@ -19,7 +19,7 @@ export default function Questions(props = {}) {
   const validation = Yup.object({
     title: Yup.string().required(),
   });
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
 
   useEffect(() => {
     setSpace(new Space(props.space));

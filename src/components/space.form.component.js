@@ -12,7 +12,7 @@ export default function SpaceForm(props = {}) {
     name: Yup.string().required(),
     description: Yup.string().required(),
   });
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {

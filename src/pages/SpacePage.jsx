@@ -14,7 +14,7 @@ export default function SpacePage(props) {
   const location = useLocation();
   const [tab, setTab] = useState(location.pathname.split("/")[3]);
   const [questionId, setQuestionId] = useState(location.pathname.split("/")[4]);
-  const [alert, setAlert] = useState({ color: "info", message: "" });
+  const [alert, setAlert] = useState();
 
   useEffect(() => {
     if (props.auth.state) {

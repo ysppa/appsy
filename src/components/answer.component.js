@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Answer, User } from "../models";
 import Avatar from "./avatar.component";
+import "./answer.component.css";
 
 export default function AnswerComponent(props = {}) {
   const [answer, setAnswer] = useState(new Answer());
   const [user, setUser] = useState(new User());
+  const [isRemoving, setIsRemoving] = useState(false);
 
   useEffect(() => {
     setAnswer(new Answer(props.answer));
@@ -21,8 +23,28 @@ export default function AnswerComponent(props = {}) {
 
   return (
     <>
-      <div className={`card text-left border ${props.className}`}>
+      <div
+        className={`AnswerComponent card text-left border ${props.className}`}
+      >
         <div className="card-body pb-0 position-relative">
+          {answer.id ? (
+            <button
+              type="button"
+              className="position-absolute btn close end-0 top-0"
+              data-dismiss="modal"
+              aria-label="Close"
+              onClick={() => {
+                // if (window.confirm("Are you sure?")) {
+                props.remove(answer);
+                setIsRemoving(true);
+                // }
+              }}
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          ) : (
+            <></>
+          )}
           <h6 className="card-title">
             <section className="d-flex">
               <aside>
@@ -37,7 +59,7 @@ export default function AnswerComponent(props = {}) {
               </aside>
             </section>
           </h6>
-          <p>{answer.content || <Skeleton />}</p>
+          <p className="m-0">{answer.content || <Skeleton />}</p>
         </div>
         <div className="card-footer bg-transparent border-0">
           <section className="d-flex justify-content-start">
@@ -63,8 +85,8 @@ export default function AnswerComponent(props = {}) {
               ) : (
                 <Skeleton
                   className="bg-light rounded-pill"
-                  width={75}
-                  height={30}
+                  width={125}
+                  height={35}
                 />
               )}
             </aside>
