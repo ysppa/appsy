@@ -5,8 +5,9 @@ import spaceService from "./../services/space.service";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import SpaceAbout from "../components/space.about.component";
 import Questions from "../components/questions.component";
-import Posts from "../components/posts.component";
 import QuestionPage from "./QuestionPage";
+import PostPage from "./PostPage";
+import PostsPage from "./PostsPage";
 
 export default function SpacePage(props) {
   const [user, setUser] = useState({});
@@ -52,7 +53,7 @@ export default function SpacePage(props) {
           backgroundSize: `150%`,
         }}
       ></header>
-      <div className={`container ${questionId === undefined ? "" : "mt-4"}`}>
+      <div className={`container ${questionId === undefined ? "" : "pt-4"}`}>
         <header>
           <div className="">
             <div
@@ -137,6 +138,7 @@ export default function SpacePage(props) {
                           user={user}
                           space={space}
                           questionId={questionId}
+                          {...props}
                         />
                       }
                     />
@@ -144,10 +146,19 @@ export default function SpacePage(props) {
                       path="/about"
                       element={<SpaceAbout space={space} />}
                     />
-                    <Route path="/posts" element={<Posts space={space} />} />
+                    <Route
+                      path="/posts/:id"
+                      element={<PostPage user={user} space={space} />}
+                    />
+                    <Route
+                      path="/posts"
+                      element={<PostsPage user={user} space={space} />}
+                    />
                     <Route
                       path="*"
-                      element={<Questions user={user} space={space} />}
+                      element={
+                        <Questions user={user} space={space} {...props} />
+                      }
                     />
                   </Routes>
                 </div>

@@ -1,10 +1,26 @@
 .Alert {
   transition-duration: 250ms;
   position: fixed;
-  bottom: 1.5rem;
+  top: unset;
   right: -150%;
+  bottom: 1.5rem;
+  left: unset;
+  z-index: 1024;
+  --right-pos: 2.5rem;
 }
 
 .Alert.show {
-  right: 2.5rem;
+  right: var(--right-pos);
+}
+
+@media (max-width: 576px) {
+  .Alert {
+    top: 2.5rem;
+    bottom: unset;
+    width: calc(100vw - var(--right-pos));
+  }
+
+  .Alert.show {
+    right: calc(var(--right-pos) / 2);
+  }
 }

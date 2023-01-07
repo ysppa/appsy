@@ -66,7 +66,7 @@ export default function AnswerComponent(props = {}) {
                 <div className="btn-group rounded-pill overflow-hidden border">
                   <button
                     type="button"
-                    className="btn btn-light"
+                    className="btn btn-light btn-static"
                     onClick={() => {}}
                   >
                     <span className="bi bi-arrow-up"></span>
@@ -74,7 +74,7 @@ export default function AnswerComponent(props = {}) {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-light border-start"
+                    className="btn btn-light border-start btn-static"
                     onClick={() => {}}
                   >
                     <span className="bi bi-arrow-down"></span>

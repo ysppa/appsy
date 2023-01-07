@@ -2,7 +2,10 @@ import Answer from "./answer.model";
 
 export default class Question {
   constructor(props = {}) {
+    this.className = "Question";
     this.id = props.id || null;
+    this.spaceId = props.spaceId || null;
+    this.userId = props.userId || null;
     this.title = props.title || null;
     this.answers = props.answers || [];
     this.followers = props.followers || [];

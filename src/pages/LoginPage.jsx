@@ -33,7 +33,7 @@ export default function LoginPage(props) {
     <>
       <div className="Login">
         <section className="row">
-          <aside className="col-lg-5 col-xl-4 mx-auto my-5">
+          <aside className="col-10 col-lg-5 col-xl-4 mx-auto my-5">
             <Formik
               initialValues={{ username: "", password: "" }}
               validationSchema={validation}
@@ -43,7 +43,11 @@ export default function LoginPage(props) {
                 auth
                   .login(values)
                   .then((res) => {
-                    setAlert({ color: "success", message: res.data.message });
+                    setAlert({
+                      color: "success",
+                      message: res.data.message,
+                      show: true,
+                    });
                     const userData = res.data.user;
                     store.set("userData", userData);
                     authDispatch({
@@ -59,6 +63,7 @@ export default function LoginPage(props) {
                       message: err.response
                         ? err.response.data.message
                         : err.message,
+                      show: true,
                     });
                     setSubmitting(false);
                   });

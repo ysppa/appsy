@@ -2,6 +2,7 @@
   --bs-body-font-size: 0.75rem;
   --bs-body-color: #212529;
   --bs-primary-rgb: 16, 252, 167;
+  --bs-primary-hover-rgb: 6, 250, 67;
   --bs-danger-rgb: 241, 80, 72;
   --bs-link-color: rgb(var(--bs-primary-rgb));
   --bs-link-hover-color: rgb(var(--bs-primary-rgb));
@@ -31,10 +32,25 @@ article {
   border-width: var(--bs-nav-tabs-link-active-border-width);
 }
 
+.dropdown-menu {
+  --bs-dropdown-link-active-bg: #10fca7;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  color: var(--bs-dropdown-link-active-color);
+  text-decoration: none;
+  background-color: var(--bs-dropdown-link-active-bg);
+}
+
 body {
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: #f8f9fa;
+}
+
+#main {
+  min-height: 100vh;
 }
 
 .h1,
@@ -54,6 +70,18 @@ h6 {
 
 .btn {
   --bs-btn-font-size: var(--bs-body-font-size);
+}
+
+button,
+[role="button"] {
+  transition-duration: var(--transition-duration);
+}
+
+button:focus:not(.btn-static),
+[role="button"]:focus:not(.btn-static),
+button:active:not(.btn-static),
+[role="button"]:active:not(.btn-static) {
+  transform: scale3d(0.9, 0.9, 0.9);
 }
 
 .form-control {
@@ -130,4 +158,42 @@ h6 {
 .btn-danger {
   --bs-btn-bg: rgb(var(--bs-danger-rgb));
   --bs-btn-border-color: var(--bs-danger-rgb);
+}
+
+.btn-primary {
+  --bs-btn-color: var(var(--bs-body-color));
+  --bs-btn-bg: rgb(var(--bs-primary-rgb));
+  --bs-btn-border-color: rgb(var(--bs-primary-rgb));
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0bd77b;
+  --bs-btn-hover-border-color: #0aca60;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0aca60;
+  --bs-btn-active-border-color: #0bd77b;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: rgb(var(--bs-primary-rgb));
+  --bs-btn-disabled-border-color: rgb(var(--bs-primary-rgb));
+}
+
+@media (max-width: 576px) {
+  .NewBtn {
+    position: fixed;
+    top: unset;
+    right: 2rem;
+    bottom: 1.5rem;
+    left: unset;
+    z-index: 1025;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    box-shadow: 0 0 15px 1px rgba(50, 49, 49, 0.76);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+  }
 }

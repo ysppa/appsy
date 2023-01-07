@@ -4,10 +4,9 @@ import { Question, Space, User } from "../models";
 import { Link } from "react-router-dom";
 import questionService from "../services/question.service";
 import Alert from "../components/alert.component";
-import { Modal } from "bootstrap";
 import AnswerComponent from "../components/answer.component";
 import answerService from "../services/answer.service";
-import AnswerModalComponent from "../components/answer.modal.component";
+import AnswerForm from "../components/answer.form.component";
 
 export default function QuestionPage(props = {}) {
   const [user, setUser] = useState(new User());
@@ -15,7 +14,18 @@ export default function QuestionPage(props = {}) {
   const [question, setQuestion] = useState(new Question());
   const [alert, setAlert] = useState();
   const reply = () => {
-    modal.show();
+    props.modal.show();
+    props.setModalProps({
+      children: (
+        <AnswerForm
+          user={props.user}
+          space={props.space}
+          question={question}
+          setQuestion={setQuestion}
+          modal={props.modal}
+        />
+      ),
+    });
   };
   const removeAnswer = (answer) => {
     setAlert({ color: "info", message: "Removing...", show: true });
@@ -34,7 +44,6 @@ export default function QuestionPage(props = {}) {
         });
       });
   };
-  const [modal, setModal] = useState();
 
   useEffect(() => {
     setUser(props.user);
@@ -52,12 +61,6 @@ export default function QuestionPage(props = {}) {
     }
     return () => {};
   }, [props]);
-
-  useEffect(() => {
-    setModal(new Modal(".modal", { backdrop: "static" }));
-
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -83,13 +86,6 @@ export default function QuestionPage(props = {}) {
           className="mb-2"
         />
       ))}
-      <AnswerModalComponent
-        user={user}
-        space={space}
-        question={question}
-        setQuestion={setQuestion}
-        modal={modal}
-      />
     </>
   );
 }

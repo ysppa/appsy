@@ -20,7 +20,7 @@ export default function RegisterPage(props) {
     <>
       <div className="Register">
         <section className="row">
-          <aside className="col-lg-5 col-xl-4 mx-auto my-5">
+          <aside className="col-10 col-lg-5 col-xl-4 mx-auto my-5">
             <Alert {...alert} />
             <h2 className="text-center mb-4">Register</h2>
             <Formik
@@ -37,12 +37,14 @@ export default function RegisterPage(props) {
                     setAlert({
                       color: "success",
                       message: result.data.message,
+                      show: true,
                     });
                   })
                   .catch((err) => {
                     setAlert({
                       color: "danger",
                       message: err.response.data.message,
+                      show: true,
                     });
                     setSubmitting(false);
                   });

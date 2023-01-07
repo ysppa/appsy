@@ -16,6 +16,9 @@ export default function ProfilePage(props = {}) {
   const location = useLocation();
   const [tab, setTab] = useState(location.pathname.split("/")[2]);
   const [alert, setAlert] = useState();
+  const handleFileChange = (e) => {
+    console.log(e);
+  };
 
   useEffect(() => {
     setTab(location.pathname.split("/")[2]);
@@ -36,7 +39,7 @@ export default function ProfilePage(props = {}) {
 
   return (
     <>
-      <div className="ProfilePage container p-5">
+      <div className="ProfilePage container py-5 p-lg-5">
         <section className="row">
           <aside className="col-12 col-lg-8">
             {user.id ? (
@@ -49,7 +52,11 @@ export default function ProfilePage(props = {}) {
                   }}
                   validationSchema={validation}
                   onSubmit={(values, { setSubmitting }) => {
-                    setAlert({ color: "info", message: "Updating..." });
+                    setAlert({
+                      color: "info",
+                      message: "Updating...",
+                      show: true,
+                    });
                     authService
                       .update(user.id, values)
                       .then((res) => {
@@ -65,10 +72,15 @@ export default function ProfilePage(props = {}) {
                         setAlert({
                           color: "success",
                           message: res.data.message,
+                          show: true,
                         });
                       })
                       .catch((err) => {
-                        setAlert({ color: "danger", message: err.message });
+                        setAlert({
+                          color: "danger",
+                          message: err.response.data.message || err.message,
+                          show: true,
+                        });
                       })
                       .finally(() => {
                         setSubmitting(false);
@@ -79,8 +91,8 @@ export default function ProfilePage(props = {}) {
                     <Form>
                       <Alert {...alert} />
                       <section className="row">
-                        <aside className="col-12 col-lg-2">
-                          <label htmlFor="avatar">
+                        <aside className="col-4 col-lg-2">
+                          <label htmlFor="avatar" role={"button"}>
                             <Avatar
                               user={user}
                               style={{ width: "100px", height: "100px" }}
@@ -89,18 +101,19 @@ export default function ProfilePage(props = {}) {
                               type="file"
                               name="avatar"
                               id="avatar"
+                              onChange={handleFileChange}
                               className="form-control d-none"
                             />
                           </label>
                         </aside>
-                        <aside className="col-12 col-lg-8">
+                        <aside className="col-8 col-lg-8">
                           <Field
                             name="username"
                             id="username"
-                            className="form-control fs-5 fw-bold bg-transparent border-0 w-auto"
+                            className="form-control fs-5 fw-bold bg-transparent border-0"
                           />
                         </aside>
-                        <aside className="col-12 col-lg-2">
+                        <aside className="col-12 col-lg-2 text-end">
                           <button
                             type="submit"
                             disabled={isSubmitting}
@@ -124,7 +137,11 @@ export default function ProfilePage(props = {}) {
                     </Form>
                   )}
                 </Formik>
-                <ul className="nav nav-tabs" id="spaceMenuTab" role="tablist">
+                <ul
+                  className="nav nav-tabs nav-fill"
+                  id="spaceMenuTab"
+                  role="tablist"
+                >
                   <li className="nav-item" role="presentation">
                     <Link
                       to={""}

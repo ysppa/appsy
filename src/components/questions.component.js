@@ -7,8 +7,7 @@ import Alert from "./alert.component";
 import Question from "../models/question.model";
 import Avatar from "./avatar.component";
 import QuestionComponent from "./question.component";
-import { Modal } from "bootstrap";
-import AnswerModalComponent from "./answer.modal.component";
+import AnswerForm from "./answer.form.component";
 
 export default function Questions(props = {}) {
   const [user, setUser] = useState(new User());
@@ -23,14 +22,24 @@ export default function Questions(props = {}) {
     title: Yup.string().required(),
   });
   const [alert, setAlert] = useState();
-  const [modal, setModal] = useState();
 
   const reply = (question) => {
     if (question.id === currentQuestion.id) {
-      modal.show();
     } else {
       setCurrentQuestion(question);
+      props.setModalProps({
+        children: (
+          <AnswerForm
+            user={props.user}
+            space={props.space}
+            question={question}
+            setQuestion={setCurrentQuestion}
+            modal={props.modal}
+          />
+        ),
+      });
     }
+    props.modal.show();
   };
 
   useEffect(() => {
@@ -55,22 +64,6 @@ export default function Questions(props = {}) {
     }
     return () => {};
   }, [space]);
-
-  useEffect(() => {
-    if (currentQuestion.id) {
-      setModal(new Modal(".modal", { backdrop: "static" }));
-    }
-
-    return () => {};
-  }, [currentQuestion]);
-
-  useEffect(() => {
-    if (modal) {
-      modal.show();
-    }
-
-    return () => {};
-  }, [modal]);
 
   useEffect(() => {
     return () => {};
@@ -146,13 +139,6 @@ export default function Questions(props = {}) {
           </li>
         ))}
       </ul>
-      <AnswerModalComponent
-        user={user}
-        space={space}
-        question={currentQuestion}
-        setQuestion={setCurrentQuestion}
-        modal={modal}
-      />
     </>
   );
 }

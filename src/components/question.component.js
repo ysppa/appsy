@@ -21,10 +21,14 @@ export default function QuestionComponent(props = {}) {
       <div className={`card text-left border ${props.className}`}>
         <div className="card-body pb-0 position-relative">
           <h5 className="card-title">{question.title || <Skeleton />}</h5>
-          <Link
-            to={`/space/${space.id}/questions/${question.id}`}
-            className="stretched-link"
-          ></Link>
+          {question.id ? (
+            <Link
+              to={`/space/${space.id}/questions/${question.id}`}
+              className="stretched-link"
+            ></Link>
+          ) : (
+            <></>
+          )}
           <section className="card-text">
             <span>
               {question.strAnswers() || <Skeleton className="w-50" />}
@@ -54,13 +58,13 @@ export default function QuestionComponent(props = {}) {
                 />
               )}
             </aside>
-            <aside className="ms-4">
+            <aside className="ms-4 d-flex align-items-center">
               {question.id ? (
                 <button type="button" className="btn rounded-pill">
                   <span className="">Follow</span>
                 </button>
               ) : (
-                <></>
+                <Skeleton className="" width={95} />
               )}
             </aside>
             <aside></aside>

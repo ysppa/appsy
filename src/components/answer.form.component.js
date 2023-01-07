@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Question } from "../models";
 import answerService from "./../services/answer.service";
 import Alert from "./alert.component";
+import Avatar from "./avatar.component";
 
 export default function AnswerForm(props = {}) {
   const [alert, setAlert] = useState();
@@ -39,6 +40,15 @@ export default function AnswerForm(props = {}) {
         {({ isSubmitting }) => (
           <Form>
             <Alert {...alert} />
+            <section className="d-flex">
+              <aside>
+                <Avatar user={props.user} style={{ width: 45, height: 45 }} />
+              </aside>
+              <aside className="ms-2">
+                <h6>{props.user.username}</h6>
+              </aside>
+            </section>
+            <h5 className="card-title my-2">{props.question.title}</h5>
             <div className="form-group mb-4">
               <Field
                 component="textarea"
