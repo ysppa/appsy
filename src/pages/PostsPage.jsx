@@ -96,7 +96,12 @@ export default function PostsPage(props = {}) {
             key={key}
             className="list-group-item list-group-item-action rounded border-0 p-0 my-2"
           >
-            <PostUI post={post} className="" />
+            <PostUI
+              user={props.user}
+              post={post}
+              setAlert={setAlert}
+              className=""
+            />
           </li>
         ))}
       </ul>

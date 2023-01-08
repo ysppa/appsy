@@ -48,7 +48,6 @@ export default function PostPage(props = {}) {
         <span className="bi bi-arrow-left"></span>
         <span className="ms-2">Back</span>
       </Link>
-      <Alert {...alert} />
       <PostUI
         user={props.user}
         space={props.space}
@@ -107,9 +106,10 @@ export default function PostPage(props = {}) {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn btn-primary rounded-pill"
+                      className="btn btn-primary rounded-pill d-flex flex-row"
                     >
-                      Add <span className="d-none d-lg-block">comment</span>
+                      <span>Add</span>
+                      <span className="d-none d-lg-block ms-1">comment</span>
                     </button>
                   </aside>
                 </section>

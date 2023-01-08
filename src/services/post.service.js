@@ -16,6 +16,12 @@ class PostService {
   delete(userId, spaceId, id) {
     return http.delete(`/posts/${id}/users/${userId}/spaces/${spaceId}`);
   }
+  upvote(userId, id) {
+    return http.post(`/posts/${id}/users/${userId}/votes`, { voteType: 1 });
+  }
+  downvote(userId, id) {
+    return http.post(`/posts/${id}/users/${userId}/votes`, { voteType: -1 });
+  }
 }
 
 export default new PostService();

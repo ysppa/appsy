@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Post, Question, User } from "./../models";
+import { Post, Question, Space, User } from "./../models";
 import SpaceForm from "../components/space.form.component";
 import spaceService from "../services/space.service";
 import Avatar from "../components/avatar.component";
@@ -15,7 +15,7 @@ import feedService from "../services/feed.service";
 export default function FeedsPage(props) {
   const [auth, setAuthState] = useState({});
   const [user, setUser] = useState(new User());
-  const [spaces, setSpaces] = useState([]);
+  const [spaces, setSpaces] = useState([new Space(), new Space(), new Space()]);
   const [alert, setAlert] = useState();
   const [currentQuestion, setCurrentQuestion] = useState(new Question());
   const [feeds, setFeeds] = useState([]);
@@ -87,7 +87,7 @@ export default function FeedsPage(props) {
           posts = posts.map((post) => new Post(post));
           questions = questions.map((question) => new Question(question));
 
-          setFeeds(posts.concat(questions));
+          setFeeds(posts.concat(questions).sort());
         })
         .catch((err) => {
           setAlert({
@@ -236,7 +236,13 @@ export default function FeedsPage(props) {
                       className=""
                     />
                   ) : (
-                    <PostUI post={feed} answer={reply} className="" />
+                    <PostUI
+                      user={user}
+                      post={feed}
+                      answer={reply}
+                      setAlert={setAlert}
+                      className=""
+                    />
                   )}
                 </li>
               ))}

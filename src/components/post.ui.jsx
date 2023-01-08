@@ -5,10 +5,15 @@ import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 
 export default function PostUI(props = {}) {
+  const [currentUser, setCurrentUser] = useState(new User());
   const [post, setPost] = useState(new Post());
   const [user, setUser] = useState(new User());
 
   useEffect(() => {
+    if (props.user.id) {
+      setCurrentUser(props.user);
+    }
+
     if (props.post) {
       setPost(props.post);
     }
@@ -56,30 +61,82 @@ export default function PostUI(props = {}) {
               className="stretched-link"
             ></Link>
           </p>
+          {currentUser.upVotedFor(post) ? (
+            <div className="small m-0">
+              <section className="d-flex">
+                <span className="ms-1">{"You upvoted for this"}</span>
+              </section>
+            </div>
+          ) : (
+            <></>
+          )}
           <section className="d-flex justify-content-start align-items-center">
             <aside>
               {post.id ? (
                 <div className="btn-group rounded-pill overflow-hidden border">
                   <button
                     type="button"
-                    className="btn btn-light btn-static"
-                    onClick={() => {}}
+                    className="btn btn-light border-0 btn-static"
+                    onClick={() => {
+                      post
+                        .upvote(currentUser.id)
+                        .then((res) => {
+                          console.log(res.data);
+                          post.votes = res.data.votes;
+                          setPost(new Post(post));
+                        })
+                        .catch((err) => {
+                          props.setAlert({
+                            color: "danger",
+                            message: err.response
+                              ? err.response.data.message
+                              : err.message,
+                            show: true,
+                          });
+                        });
+                    }}
                   >
-                    <span className="bi bi-arrow-up"></span>
-                    <span className="ms-2">Upvote</span>
+                    {currentUser.upVotedFor(post) ? (
+                      <span className="bi bi-shift-fill"></span>
+                    ) : (
+                      <span className="bi bi-shift"></span>
+                    )}
+                    <span className="ms-2">
+                      <span>Upvote</span>
+                      <span className="bi bi-dot"></span>
+                      <span className="">{post.upVotes().length}</span>
+                    </span>
                   </button>
                   <button
                     type="button"
-                    className="btn btn-light border-start btn-static"
-                    onClick={() => {}}
+                    className={`btn btn-light border-0 border-start btn-static ${
+                      currentUser.downVotedFor(post)
+                        ? "bg-danger text-white"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      post
+                        .downvote(currentUser.id)
+                        .then((res) => {
+                          post.votes = res.data.votes;
+                          setPost(new Post(post));
+                        })
+                        .catch((err) => {
+                          props.setAlert({
+                            color: "danger",
+                            message: err.response.data.message || err.message,
+                            show: true,
+                          });
+                        });
+                    }}
                   >
-                    <span className="bi bi-arrow-down"></span>
+                    <span className={`bi bi-arrow-down`}></span>
                   </button>
                 </div>
               ) : (
                 <Skeleton
                   className="bg-light rounded-pill"
-                  width={125}
+                  width={142}
                   height={35}
                 />
               )}

@@ -9,4 +9,18 @@ export default class User {
   initials() {
     return this.username[0].toUpperCase();
   }
+
+  upVotedFor(post) {
+    return (
+      post.votes.filter((p) => p.userId === this.id && p.voteType === 1)
+        .length > 0
+    );
+  }
+
+  downVotedFor(post) {
+    return (
+      post.votes.filter((p) => p.userId === this.id && p.voteType === -1)
+        .length > 0
+    );
+  }
 }

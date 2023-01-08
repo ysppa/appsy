@@ -21,7 +21,7 @@ export default function CommentsComponent(props = {}) {
     <>
       <ul className="list-group">
         {comments.map((comment, key) => (
-          <li className="list-group-item border-0 p-0">
+          <li key={key} className="list-group-item border-0 p-0">
             <CommentUI key={key} comment={comment} />
           </li>
         ))}
