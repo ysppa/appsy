@@ -5,12 +5,14 @@ import { Question } from "../models";
 import answerService from "./../services/answer.service";
 import Alert from "./alert.component";
 import Avatar from "./avatar.component";
+import { useNavigate } from "react-router-dom";
 
 export default function AnswerForm(props = {}) {
   const [alert, setAlert] = useState();
   const validation = Yup.object({
     content: Yup.string().required(),
   });
+  const navigate = useNavigate();
 
   return (
     <>
@@ -19,7 +21,7 @@ export default function AnswerForm(props = {}) {
         validationSchema={validation}
         onSubmit={(values, { setSubmitting, setValues }) => {
           answerService
-            .create(props.user.id, props.space.id, props.question.id, values)
+            .create(props.question.id, values)
             .then((res) => {
               props.question.addAnswer({
                 ...res.data.answer,
@@ -27,6 +29,9 @@ export default function AnswerForm(props = {}) {
               });
               props.setQuestion(new Question(props.question));
               setValues({ content: "" });
+              navigate(
+                `/space/${props.question.spaceId}/questions/${props.question.id}`
+              );
               props.modal.hide();
             })
             .catch((err) => {

@@ -47,7 +47,7 @@ export default function PostsPage(props = {}) {
         onSubmit={(values, { setSubmitting, setValues }) => {
           setAlert({ color: "info", message: "Posting..." });
           postService
-            .create(props.user.id, props.space.id, values)
+            .create(props.space.id, values)
             .then((res) => {
               const post = new Post({ ...res.data.post, user: props.user });
               setValues({ content: "" });

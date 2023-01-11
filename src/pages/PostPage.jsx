@@ -20,11 +20,7 @@ export default function PostPage(props = {}) {
 
     if (props.user && props.user.id && props.space && props.space.id) {
       postService
-        .get(
-          props.user.id,
-          props.space.id,
-          Number(location.pathname.split("/")[4])
-        )
+        .get(props.space.id, Number(location.pathname.split("/")[4]))
         .then((res) => {
           setPost(new Post(res.data.post));
         })

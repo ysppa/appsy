@@ -1,23 +1,17 @@
 import http from "../http-common";
 
 class AnswerService {
-  create(userId, spaceId, questionId, data) {
-    return http.post(
-      `/answers/users/${userId}/spaces/${spaceId}/questions/${questionId}`,
-      data
-    );
+  create(questionId, data) {
+    return http.post(`/answers?questionId=${questionId}`, data);
   }
-  delete(userId, spaceId, questionId, id, data = {}) {
-    return http.delete(
-      `/answers/${id}/users/${userId}/spaces/${spaceId}/questions/${questionId}`,
-      data
-    );
+  delete(questionId, id, data = {}) {
+    return http.delete(`/answers/${id}?questionId=${questionId}`, data);
   }
-  upvote(userId, id) {
-    return http.post(`/answers/${id}/users/${userId}/votes`, { voteType: 1 });
+  upvote(id) {
+    return http.post(`/answers/${id}/votes`, { voteType: 1 });
   }
-  downvote(userId, id) {
-    return http.post(`/answers/${id}/users/${userId}/votes`, { voteType: -1 });
+  downvote(id) {
+    return http.post(`/answers/${id}/votes`, { voteType: -1 });
   }
 }
 

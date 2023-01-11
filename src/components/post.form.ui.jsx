@@ -30,7 +30,7 @@ export default function PostFormUI(props = {}) {
         validationSchema={validation}
         onSubmit={(values, { setSubmitting }) => {
           postService
-            .create(props.user.id, values.spaceId, values)
+            .create(values.spaceId, values)
             .then((res) => {
               setAlert({
                 color: "success",

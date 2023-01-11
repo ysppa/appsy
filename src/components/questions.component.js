@@ -44,7 +44,6 @@ export default function Questions(props = {}) {
         children: (
           <AnswerForm
             user={props.user}
-            space={props.space}
             question={question}
             setQuestion={setCurrentQuestion}
             modal={props.modal}

@@ -16,24 +16,12 @@ export default class Post {
     this.updatedAt = new Date(props.updatedAt || null);
   }
 
-  upvote(userId) {
-    return new Promise((resolve, reject) => {
-      try {
-        if (userId === null) {
-          throw new Error(`Can not upvote without a user`);
-        }
-        postService
-          .upvote(userId, this.id)
-          .then((res) => resolve(res))
-          .catch((err) => reject(err));
-      } catch (error) {
-        reject(error);
-      }
-    });
+  upvote() {
+    return postService.upvote(this.id);
   }
 
-  downvote(userId) {
-    return postService.downvote(userId, this.id);
+  downvote() {
+    return postService.downvote(this.id);
   }
 
   upVotes() {

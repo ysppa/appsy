@@ -19,7 +19,6 @@ export default function QuestionPage(props = {}) {
       children: (
         <AnswerForm
           user={props.user}
-          space={props.space}
           question={question}
           setQuestion={setQuestion}
           modal={props.modal}
@@ -30,7 +29,7 @@ export default function QuestionPage(props = {}) {
   const removeAnswer = (answer) => {
     setAlert({ color: "info", message: "Removing...", show: true });
     answerService
-      .delete(user.id, space.id, question.id, answer.id)
+      .delete(question.id, answer.id)
       .then((res) => {
         setAlert({ color: "success", message: res.data.message, show: true });
         question.removeAnswer(answer.id);
