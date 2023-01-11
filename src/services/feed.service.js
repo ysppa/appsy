@@ -1,10 +1,8 @@
 import httpCommon from "../http-common";
 
 class FeedService {
-  index(userId, spaceId = null, data) {
-    const url = spaceId
-      ? `/feeds/users/${userId}/spaces/${spaceId}`
-      : `/feeds/users/${userId}/`;
+  index(spaceId, data = {}) {
+    const url = spaceId ? `/feeds/spaces/${spaceId}` : `/feeds/`;
     return httpCommon.get(url, {
       data: data,
     });

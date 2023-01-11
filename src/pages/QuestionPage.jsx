@@ -83,6 +83,7 @@ export default function QuestionPage(props = {}) {
           question={question}
           answer={a}
           remove={removeAnswer}
+          setAlert={setAlert}
           className="mb-2"
         />
       ))}

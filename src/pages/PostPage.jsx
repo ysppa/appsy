@@ -3,12 +3,10 @@ import PostUI from "../components/post.ui";
 import { Link, useLocation } from "react-router-dom";
 import { Post } from "../models";
 import postService from "../services/post.service";
-import commentService from "../services/comment.service";
-import Alert from "../components/alert.component";
+
 import CommentsComponent from "../components/comments.component";
-import { Field, Form, Formik } from "formik";
-import * as Yup from "yup";
-import Avatar from "../components/avatar.component";
+import CommentFormUI from "../components/comment.form.ui";
+import Alert from "../components/alert.component";
 
 export default function PostPage(props = {}) {
   const [post, setPost] = useState(new Post());
@@ -52,73 +50,23 @@ export default function PostPage(props = {}) {
         user={props.user}
         space={props.space}
         post={post}
+        setAlert={setAlert}
         className="rounded-0 rounded-top border-bottom-0"
       />
-      <Formik
-        initialValues={{ content: "" }}
-        validationSchema={Yup.object({
-          content: Yup.string().required(),
-        })}
-        onSubmit={(values, { setSubmitting, setValues }) => {
-          commentService
-            .create(values)
-            .then((res) => {
-              post.addComment({
-                ...res.data.comment,
-                user: props.user,
-                post: post,
-              });
-              setPost(new Post(post));
-              setValues({ content: "" });
-            })
-            .catch((err) => {
-              setAlert({
-                color: "danger",
-                message: err.response.data.message || err.message,
-                show: true,
-              });
-            })
-            .finally(() => {
-              setSubmitting(false);
-            });
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <div className="card border-0 border-start border-end bg-light rounded-0">
-              <div className="card-body p-2">
-                <Alert {...alert} />
-                <section className="d-flex align-items-center">
-                  <aside className="">
-                    <label htmlFor="content" className="form-label m-0">
-                      <Avatar user={props.user} />
-                    </label>
-                  </aside>
-                  <aside className="ms-2 flex-grow-1">
-                    <Field
-                      name="content"
-                      id="content"
-                      className="form-control rounded-pill border-0"
-                      placeholder={`Add a comment`}
-                    />
-                  </aside>
-                  <aside className="ms-2">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="btn btn-primary rounded-pill d-flex flex-row"
-                    >
-                      <span>Add</span>
-                      <span className="d-none d-lg-block ms-1">comment</span>
-                    </button>
-                  </aside>
-                </section>
-              </div>
-            </div>
-          </Form>
-        )}
-      </Formik>
-      <CommentsComponent comments={post.comments} />
+      <Alert {...alert} />
+      <CommentFormUI
+        user={props.user}
+        post={post}
+        setPost={setPost}
+        setAlert={setAlert}
+        commentAbleType="post"
+        commentAbleId={post.id}
+      />
+      <CommentsComponent
+        user={props.user}
+        setAlert={setAlert}
+        comments={post.comments}
+      />
     </>
   );
 }

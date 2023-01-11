@@ -15,7 +15,18 @@ import feedService from "../services/feed.service";
 export default function FeedsPage(props) {
   const [auth, setAuthState] = useState({});
   const [user, setUser] = useState(new User());
-  const [spaces, setSpaces] = useState([new Space(), new Space(), new Space()]);
+  const [spaces, setSpaces] = useState([
+    new Space(),
+    new Space(),
+    new Space(),
+    new Space(),
+    new Space(),
+    new Space(),
+    new Space(),
+    new Space(),
+    new Space(),
+    new Space(),
+  ]);
   const [alert, setAlert] = useState();
   const [currentQuestion, setCurrentQuestion] = useState(new Question());
   const [feeds, setFeeds] = useState([]);
@@ -80,7 +91,7 @@ export default function FeedsPage(props) {
         });
 
       feedService
-        .index(user.id, null, {})
+        .index(null, {})
         .then((res) => {
           let { posts, questions } = res.data;
 
@@ -231,6 +242,7 @@ export default function FeedsPage(props) {
                 >
                   {feed.className === "Question" ? (
                     <QuestionComponent
+                      space={feed.space}
                       question={feed}
                       answer={reply}
                       className=""

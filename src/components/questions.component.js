@@ -93,7 +93,7 @@ export default function Questions(props = {}) {
         {({ isSubmitting }) => (
           <Form>
             <div className="card mt-4 border">
-              <div className="card-body p-2">
+              <div className="card-body py-2">
                 <Alert {...alert} />
                 <section className="d-flex align-items-center">
                   <aside className="">

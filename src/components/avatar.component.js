@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../models";
+import Skeleton from "react-loading-skeleton";
 
 export default function Avatar(props = {}) {
   const [user, setUser] = useState(new User());
@@ -10,13 +11,19 @@ export default function Avatar(props = {}) {
     return () => {};
   }, [props]);
 
-  return (
-    <figure className="logo m-0" style={props.style}>
+  return user.id ? (
+    <figure
+      className={`logo m-0 ${props.className}`}
+      style={props.style}
+      {...props}
+    >
       <img
         className="card-img-top h-100 w-100"
         src={user.avatar || user.logo}
         alt={user.initials()}
       />
     </figure>
+  ) : (
+    <Skeleton style={props.style} className="logo" circle={true} {...props} />
   );
 }

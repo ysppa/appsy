@@ -5,10 +5,12 @@ import Avatar from "./avatar.component";
 import "./answer.component.css";
 
 export default function AnswerComponent(props = {}) {
+  const [currentUser, setCurrentUser] = useState(new User());
   const [answer, setAnswer] = useState(new Answer());
   const [user, setUser] = useState(new User());
 
   useEffect(() => {
+    setCurrentUser(props.user);
     setAnswer(new Answer(props.answer));
 
     return () => {};
@@ -67,15 +69,55 @@ export default function AnswerComponent(props = {}) {
                   <button
                     type="button"
                     className="btn btn-light btn-static"
-                    onClick={() => {}}
+                    onClick={() => {
+                      answer
+                        .upvote(currentUser.id)
+                        .then((res) => {
+                          answer.votes = res.data.votes;
+                          setAnswer(new Answer(answer));
+                        })
+                        .catch((err) => {
+                          props.setAlert({
+                            color: "danger",
+                            message: err.response.data.message || err.message,
+                            show: true,
+                          });
+                        });
+                    }}
                   >
-                    <span className="bi bi-arrow-up"></span>
-                    <span className="ms-2">Upvote</span>
+                    {currentUser.upVotedFor(answer) ? (
+                      <span className="bi bi-shift-fill"></span>
+                    ) : (
+                      <span className="bi bi-shift"></span>
+                    )}
+                    <span className="ms-2">
+                      <span>Upvote</span>
+                      <span className="bi bi-dot"></span>
+                      <span className="">{answer.upVotes().length}</span>
+                    </span>
                   </button>
                   <button
                     type="button"
-                    className="btn btn-light border-start btn-static"
-                    onClick={() => {}}
+                    className={`btn btn-light border-0 border-start btn-static ${
+                      currentUser.downVotedFor(answer)
+                        ? "bg-danger text-white"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      answer
+                        .downvote(currentUser.id)
+                        .then((res) => {
+                          answer.votes = res.data.votes;
+                          setAnswer(new Answer(answer));
+                        })
+                        .catch((err) => {
+                          props.setAlert({
+                            color: "danger",
+                            message: err.response.data.message || err.message,
+                            show: true,
+                          });
+                        });
+                    }}
                   >
                     <span className="bi bi-arrow-down"></span>
                   </button>

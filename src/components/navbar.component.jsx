@@ -6,11 +6,17 @@ import authReducer from "../reducers/auth.reducer";
 import authService from "../services/auth.service";
 import Avatar from "./avatar.component";
 import QuestionFormUI from "./question.form.ui";
+import { removeUserSession } from "./../Utils/Common";
 
 export default function Navbar(props) {
   const [auth, authDispatch] = useReducer(authReducer, {});
   const [authState, setAuthState] = useState(auth);
   const location = useLocation();
+  const logout = () => {
+    authDispatch({ type: "logout" });
+    removeUserSession();
+    authService.logout();
+  };
 
   useEffect(() => {
     setAuthState(props.auth.state);
@@ -97,8 +103,7 @@ export default function Navbar(props) {
                   <div className="dropdown-divider"></div>
                   <Link
                     onClick={() => {
-                      authService.logout();
-                      authDispatch({ type: "logout" });
+                      logout();
                     }}
                     className="dropdown-item text-danger"
                     to="/logout"

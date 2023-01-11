@@ -16,6 +16,7 @@ export default function RegisterPage(props) {
       .required()
       .min(8, "Too short"),
   });
+
   return (
     <>
       <div className="Register">
@@ -33,12 +34,14 @@ export default function RegisterPage(props) {
               onSubmit={(values, { setSubmitting }) => {
                 auth
                   .register(values)
-                  .then((result) => {
+                  .then((res) => {
+                    auth.persistLogin(res, props.authDispatch);
                     setAlert({
                       color: "success",
-                      message: result.data.message,
+                      message: res.data.message,
                       show: true,
                     });
+                    window.location.href = "/";
                   })
                   .catch((err) => {
                     setAlert({

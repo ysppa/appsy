@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "react-perfect-scrollbar/dist/css/styles.css";
 import "./App.css";
 import React, { useEffect, useReducer, useState } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -11,33 +12,54 @@ import SpacePage from "./pages/SpacePage";
 import RegisterPage from "./pages/RegisterPage";
 import authReducer from "./reducers/auth.reducer";
 import FeedsPage from "./pages/FeedsPage";
-import { User } from "./models";
 import ProfilePage from "./pages/ProfilePage";
 import { Modal } from "bootstrap";
 import ModalUI from "./components/modal.ui";
+import ChatComponent from "./components/chat.component";
+import { getToken, handleError, removeUserSession } from "./Utils/Common";
+import authService from "./services/auth.service";
+import Alert from "./components/alert.component";
 
 function App() {
+  const [authLoading, setAuthLoading] = useState(true);
   const [authState, authDispatch] = useReducer(authReducer, {});
   const [modal, setModal] = useState();
   const [modalProps, setModalProps] = useState({});
+  const [alert, setAlert] = useState();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userData")) || {};
-    authDispatch({
-      type: "LOAD_INITIAL_STATE",
-      payload: {
-        user: new User(user),
-        userSignedIn: user !== null && Number(user.id) > 0,
-      },
+    setAlert({
+      color: "info",
+      message: "Checking Authentication...",
+      show: true,
     });
+    const token = getToken();
+    if (!token) {
+      setAuthLoading(false);
+      return;
+    }
 
-    setModal(new Modal(".modal", { backdrop: "static", keyboard: false }));
+    authService
+      .verifyToken(token)
+      .then((res) => {
+        authService.persistLogin(res, authDispatch);
+        setAuthLoading(false);
+      })
+      .catch((err) => {
+        removeUserSession();
+        handleError(err, setAlert);
+      });
+
+    if (document.querySelector(".modal")) {
+      setModal(new Modal(".modal", { backdrop: true, keyboard: false }));
+    }
 
     return () => {};
   }, []);
 
   return (
     <div className="App">
+      {authLoading ? <Alert {...alert} /> : <></>}
       <ModalUI modal={modal} {...modalProps}></ModalUI>
       <Navbar
         auth={{ state: authState }}
@@ -83,15 +105,39 @@ function App() {
           />
           <Route
             path="/register"
-            element={<RegisterPage auth={{ state: authState }} />}
+            element={
+              <RegisterPage
+                authDispatch={authDispatch}
+                auth={{ state: authState }}
+              />
+            }
           />
           <Route
             path="/login"
-            element={<LoginPage auth={{ state: authState }} />}
+            element={
+              <LoginPage
+                authDispatch={authDispatch}
+                auth={{ state: authState }}
+              />
+            }
           />
-          <Route path="*" element={<HomePage auth={{ state: authState }} />} />
+          <Route
+            path="*"
+            element={
+              <HomePage
+                setModalProps={setModalProps}
+                modal={modal}
+                auth={{ state: authState }}
+              />
+            }
+          />
         </Routes>
       </div>
+      {authState.userSignedIn ? (
+        <ChatComponent setAlert={setAlert} authState={authState} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

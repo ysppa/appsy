@@ -6,6 +6,8 @@ import postService from "../services/post.service";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import Avatar from "../components/avatar.component";
+import CommentFormUI from "../components/comment.form.ui";
+import CommentsComponent from "../components/comments.component";
 
 export default function PostsPage(props = {}) {
   const [posts, setPosts] = useState([new Post(), new Post(), new Post()]);
@@ -59,7 +61,7 @@ export default function PostsPage(props = {}) {
         {({ isSubmitting }) => (
           <Form>
             <div className="card mt-4 border">
-              <div className="card-body p-2">
+              <div className="card-body py-2">
                 <Alert {...alert} />
                 <section className="d-flex align-items-center">
                   <aside className="">
@@ -94,13 +96,25 @@ export default function PostsPage(props = {}) {
         {posts.map((post, key) => (
           <li
             key={key}
-            className="list-group-item list-group-item-action rounded border-0 p-0 my-2"
+            className="list-group-item list-group-item-action rounded-0 rounded-top border-0 p-0 my-2"
           >
             <PostUI
               user={props.user}
               post={post}
               setAlert={setAlert}
-              className=""
+              className="rounded-0 rounded-top border-bottom-0"
+            />
+            <CommentFormUI
+              user={props.user}
+              post={post}
+              setAlert={setAlert}
+              commentAbleType="post"
+              commentAbleId={post.id}
+            />
+            <CommentsComponent
+              user={props.user}
+              setAlert={setAlert}
+              comments={post.comments}
             />
           </li>
         ))}

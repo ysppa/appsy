@@ -13,6 +13,12 @@ class AnswerService {
       data
     );
   }
+  upvote(userId, id) {
+    return http.post(`/answers/${id}/users/${userId}/votes`, { voteType: 1 });
+  }
+  downvote(userId, id) {
+    return http.post(`/answers/${id}/users/${userId}/votes`, { voteType: -1 });
+  }
 }
 
 export default new AnswerService();

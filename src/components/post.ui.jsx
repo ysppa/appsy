@@ -56,10 +56,14 @@ export default function PostUI(props = {}) {
           </section>
           <p className="card-text mt-2 position-relative">
             {post.id ? post.content : <Skeleton count={3} />}
-            <Link
-              to={`/space/${post.spaceId}/posts/${post.id}`}
-              className="stretched-link"
-            ></Link>
+            {post.id ? (
+              <Link
+                to={`/space/${post.spaceId}/posts/${post.id}`}
+                className="stretched-link"
+              ></Link>
+            ) : (
+              <></>
+            )}
           </p>
           {currentUser.upVotedFor(post) ? (
             <div className="small m-0">
@@ -81,7 +85,6 @@ export default function PostUI(props = {}) {
                       post
                         .upvote(currentUser.id)
                         .then((res) => {
-                          console.log(res.data);
                           post.votes = res.data.votes;
                           setPost(new Post(post));
                         })
@@ -145,6 +148,8 @@ export default function PostUI(props = {}) {
               {post.id ? (
                 <button type="button" className="btn rounded-pill border">
                   <span className="bi bi-chat-text"></span>
+                  <span className="bi bi-dot"></span>
+                  <span>{post.comments.length}</span>
                 </button>
               ) : (
                 <Skeleton

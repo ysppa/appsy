@@ -1,17 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import auth from "./../services/auth.service";
 import Alert from "../components/alert.component";
-import reducer from "../reducers/auth.reducer";
 import { Link } from "react-router-dom";
-import store from "./../services/storage.service";
 
 export default function LoginPage(props) {
   const [alert, setAlert] = useState();
-  const [authStateReducer, authDispatch] = useReducer(reducer, {});
-  const [authState, setAuthState] = useState(authStateReducer);
-  // const navigate = useNavigate();
 
   const validation = Yup.object({
     username: Yup.string()
@@ -22,12 +17,6 @@ export default function LoginPage(props) {
       .min(8, "Too short")
       .required("Required"),
   });
-
-  useEffect(() => {
-    setAuthState(props.auth.state);
-
-    return () => {};
-  }, [props]);
 
   return (
     <>
@@ -48,13 +37,7 @@ export default function LoginPage(props) {
                       message: res.data.message,
                       show: true,
                     });
-                    const userData = res.data.user;
-                    store.set("userData", userData);
-                    authDispatch({
-                      type: "login",
-                      payload: userData,
-                    });
-                    // navigate("/");
+                    auth.persistLogin(res, props.authDispatch);
                     window.location.href = "/";
                   })
                   .catch((err) => {
@@ -72,12 +55,7 @@ export default function LoginPage(props) {
               {({ isSubmitting }) => (
                 <Form>
                   <Alert {...alert} />
-                  <h2 className="text-center mb-4">
-                    Login{" "}
-                    {authState.userSignedIn
-                      ? ` - ${authState.user.username}`
-                      : ""}
-                  </h2>
+                  <h2 className="text-center mb-4">Login</h2>
                   <div className="form-group form-floating mb-3">
                     <Field
                       type="text"
