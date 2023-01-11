@@ -46,7 +46,7 @@ function App() {
         setAuthLoading(false);
       })
       .catch((err) => {
-        // removeUserSession();
+        removeUserSession();
         handleError(err, setAlert);
       });
 

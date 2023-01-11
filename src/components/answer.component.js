@@ -130,7 +130,7 @@ export default function AnswerComponent(props = {}) {
                 />
               )}
             </aside>
-            <aside className="ms-4">
+            {/* <aside className="ms-4">
               {answer.id ? (
                 <button type="button" className="btn rounded-pill border">
                   <span className="bi bi-chat-text"></span>
@@ -138,7 +138,7 @@ export default function AnswerComponent(props = {}) {
               ) : (
                 <></>
               )}
-            </aside>
+            </aside> */}
           </section>
         </div>
       </div>
