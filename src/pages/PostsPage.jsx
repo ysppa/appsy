@@ -8,6 +8,7 @@ import { Field, Form, Formik } from "formik";
 import Avatar from "../components/avatar.component";
 import CommentFormUI from "../components/comment.form.ui";
 import CommentsComponent from "../components/comments.component";
+import { handleError } from "../Utils/Common";
 
 export default function PostsPage(props = {}) {
   const [posts, setPosts] = useState([new Post(), new Post(), new Post()]);
@@ -17,21 +18,22 @@ export default function PostsPage(props = {}) {
   useEffect(() => {
     if (props.posts) {
       setPosts(props.posts);
-    }
-
-    if (props.user && props.user.id && props.space && props.space.id) {
-      postService
-        .index(props.user.id, props.space.id, {})
-        .then((res) => {
-          setPosts(res.data.posts.map((post) => new Post(post)));
-        })
-        .catch((err) => {
-          setAlert({
-            color: "danger",
-            message: err.response ? err.response.data.message : err.message,
-            show: true,
-          });
-        });
+    } else {
+      // if (props.user && props.user.id && props.space && props.space.id) {
+      //   postService
+      //     .index(props.user.id, props.space.id, {})
+      //     .then((res) => {
+      //       console.log(res.data.posts);
+      //       setPosts(res.data.posts.map((post) => new Post(post)));
+      //     })
+      //     .catch((err) => {
+      //       setAlert({
+      //         color: "danger",
+      //         message: err.response ? err.response.data.message : err.message,
+      //         show: true,
+      //       });
+      //     });
+      // }
     }
 
     return () => {};
@@ -53,7 +55,7 @@ export default function PostsPage(props = {}) {
               setAlert({ color: "success", message: res.data.message });
             })
             .catch((err) => {
-              setAlert({ color: "danger", message: err.message });
+              handleError(err, setAlert);
               setSubmitting(false);
             });
         }}

@@ -152,12 +152,24 @@ export default function SpacePage(props) {
                     />
                     <Route
                       path="/posts"
-                      element={<PostsPage user={user} space={space} />}
+                      element={
+                        <PostsPage
+                          user={user}
+                          space={space}
+                          posts={space.posts}
+                        />
+                      }
                     />
                     <Route
                       path="*"
                       element={
-                        <Questions user={user} space={space} {...props} />
+                        <Questions
+                          user={user}
+                          space={space}
+                          setSpace={setSpace}
+                          questions={space.questions}
+                          {...props}
+                        />
                       }
                     />
                   </Routes>

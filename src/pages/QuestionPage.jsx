@@ -51,7 +51,7 @@ export default function QuestionPage(props = {}) {
 
     if (props.user.id && props.space.id && props.questionId) {
       questionService
-        .get(props.user.id, props.space.id, props.questionId)
+        .get(props.space.id, props.questionId)
         .then((res) => {
           setQuestion(new Question(res.data.question));
         })

@@ -23,6 +23,19 @@ export default function Questions(props = {}) {
   });
   const [alert, setAlert] = useState();
 
+  // const fetchQuestions = () => {
+  //   questionService
+  //     .index(user.id, space.id)
+  //     .then((res) => {
+  //       const questions = [];
+  //       res.data.questions.map((q) => questions.push(new Question(q)));
+  //       setQuestions(questions);
+  //     })
+  //     .catch((err) => {
+  //       setAlert({ color: "danger", message: err.message });
+  //     });
+  // };
+
   const reply = (question) => {
     if (question.id === currentQuestion.id) {
     } else {
@@ -45,29 +58,10 @@ export default function Questions(props = {}) {
   useEffect(() => {
     setSpace(new Space(props.space));
     setUser(new User(props.user));
+    setQuestions(props.questions);
 
     return () => {};
   }, [props]);
-
-  useEffect(() => {
-    if (space.id) {
-      questionService
-        .index(user.id, space.id)
-        .then((res) => {
-          const questions = [];
-          res.data.questions.map((q) => questions.push(new Question(q)));
-          setQuestions(questions);
-        })
-        .catch((err) => {
-          setAlert({ color: "danger", message: err.message });
-        });
-    }
-    return () => {};
-  }, [space]);
-
-  useEffect(() => {
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -77,11 +71,13 @@ export default function Questions(props = {}) {
         onSubmit={(values, { setSubmitting, setValues }) => {
           setAlert({ color: "info", message: "Posting..." });
           questionService
-            .create(user.id, space.id, values)
+            .create(space.id, values)
             .then((res) => {
               const question = new Question(res.data.question);
               setValues({ title: "" });
               setQuestions([question, ...questions]);
+              space.addQuestion(question);
+              props.setSpace(new Space(space));
               setAlert({ color: "success", message: res.data.message });
             })
             .catch((err) => {

@@ -49,7 +49,7 @@ export default function QuestionFormUI(props = {}) {
         validationSchema={validation}
         onSubmit={(values, { setSubmitting }) => {
           questionService
-            .create(props.user.id, values.spaceId, values)
+            .create(values.spaceId, values)
             .then((res) => {
               setAlert({
                 color: "success",

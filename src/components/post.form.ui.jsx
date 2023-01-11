@@ -6,6 +6,7 @@ import postService from "./../services/post.service";
 import { Post } from "../models";
 import Avatar from "./avatar.component";
 import { useNavigate } from "react-router-dom";
+import { handleError } from "../Utils/Common";
 
 export default function PostFormUI(props = {}) {
   const [alert, setAlert] = useState();
@@ -41,11 +42,7 @@ export default function PostFormUI(props = {}) {
               navigate(`/space/${post.spaceId}/posts/${post.id}`);
             })
             .catch((err) => {
-              setAlert({
-                color: "danger",
-                message: err.response.data.message || err.message,
-                show: true,
-              });
+              handleError(err, setAlert);
               setSubmitting(false);
             });
         }}

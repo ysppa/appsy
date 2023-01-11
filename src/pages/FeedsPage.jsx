@@ -43,7 +43,7 @@ export default function FeedsPage(props) {
     props.setModalProps({
       title: "Add Question",
       children: (
-        <QuestionFormUI user={user} modal={props.modal} spaces={spaces} />
+        <QuestionFormUI user={user} modal={props.modal} space={spaces} />
       ),
     });
     props.modal.show();
@@ -214,7 +214,7 @@ export default function FeedsPage(props) {
                                     <PostFormUI
                                       user={user}
                                       modal={props.modal}
-                                      spaces={spaces}
+                                      space={spaces}
                                     />
                                   ),
                                 });

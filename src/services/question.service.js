@@ -1,20 +1,20 @@
 import http from "./../http-common";
 
 class QuestionService {
-  index(userId, spaceId, data = {}) {
-    return http.get(`/questions/users/${userId}/spaces/${spaceId}`, data);
+  index(spaceId, data = {}) {
+    return http.get(`/questions?spaceId=${spaceId}`, data);
   }
-  create(userId, spaceId, data) {
-    return http.post(`/questions/users/${userId}/spaces/${spaceId}`, data);
+  create(spaceId, data) {
+    return http.post(`/questions?spaceId=${spaceId}`, data);
   }
-  get(userId, spaceId, id) {
-    return http.get(`/questions/${id}/users/${userId}/spaces/${spaceId}`);
+  get(spaceId, id) {
+    return http.get(`/questions/${id}?spaceId=${spaceId}`);
   }
-  update(userId, spaceId, id, data) {
-    return http.put(`/questions/${id}/users/${userId}/spaces/${spaceId}`, data);
+  update(spaceId, id, data) {
+    return http.put(`/questions/${id}?spaceId=${spaceId}`, data);
   }
-  delete(userId, spaceId, id) {
-    return http.delete(`/questions/${id}/users/${userId}/spaces/${spaceId}`);
+  delete(spaceId, id) {
+    return http.delete(`/questions/${id}?spaceId=${spaceId}`);
   }
 }
 

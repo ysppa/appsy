@@ -1,3 +1,6 @@
+import Post from "./post.model";
+import Question from "./question.model";
+
 export default class Space {
   constructor(props = {}) {
     this.id = props.id || null;
@@ -7,5 +10,19 @@ export default class Space {
     this.coverPicture =
       props.coverPicture || "/assets/images/CoverPicture.jpeg";
     this.description = props.description || null;
+    this.posts = props.posts ? props.posts.map((p) => new Post(p)) : [];
+    this.questions = props.questions
+      ? props.questions.map((q) => new Question(q))
+      : [];
+  }
+
+  addQuestion(question) {
+    this.questions.push(question);
+  }
+
+  removeQuestion(questionId) {
+    this.questions = this.questions.filter(
+      (question) => question.id !== questionId
+    );
   }
 }
