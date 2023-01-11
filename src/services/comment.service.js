@@ -1,20 +1,20 @@
 import http from "./../http-common";
 
 class CommentService {
-  create(userId, data) {
-    return http.post(`/comments/users/${userId}`, data);
+  create(data) {
+    return http.post(`/comments`, data);
   }
 
-  delete(userId, id, data = {}) {
-    return http.delete(`/comments/${id}/users/${userId}`, data);
+  delete(id, data = {}) {
+    return http.delete(`/comments/${id}`, data);
   }
 
-  upvote(userId, id) {
-    return http.post(`/comments/${id}/users/${userId}/votes`, { voteType: 1 });
+  upvote(id) {
+    return http.post(`/comments/${id}/votes`, { voteType: 1 });
   }
 
-  downvote(userId, id) {
-    return http.post(`/comments/${id}/users/${userId}/votes`, { voteType: -1 });
+  downvote(id) {
+    return http.post(`/comments/${id}/votes`, { voteType: -1 });
   }
 }
 

@@ -16,12 +16,12 @@ export default class Comment {
     this.updatedAt = new Date(props.updatedAt || null);
   }
 
-  upvote(userId) {
-    return commentService.upvote(userId, this.id);
+  upvote() {
+    return commentService.upvote(this.id);
   }
 
-  downvote(userId) {
-    return commentService.downvote(userId, this.id);
+  downvote() {
+    return commentService.downvote(this.id);
   }
 
   upVotes() {

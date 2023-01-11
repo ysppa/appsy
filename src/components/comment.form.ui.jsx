@@ -4,10 +4,12 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Avatar from "../components/avatar.component";
 import { Post } from "../models";
+import { useNavigate } from "react-router-dom";
 
 export default function CommentFormUI(props = {}) {
   const [post, setPost] = useState(new Post());
   const [initialValues, setInitialValues] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPost(props.post);
@@ -32,17 +34,20 @@ export default function CommentFormUI(props = {}) {
       })}
       onSubmit={(values, { setSubmitting, setValues }) => {
         commentService
-          .create(props.user.id, values)
+          .create(values)
           .then((res) => {
+            setValues(initialValues);
             post.addComment({
               ...res.data.comment,
               user: props.user,
               post: post,
             });
-            props.setPost
-              ? props.setPost(new Post(post))
-              : setPost(new Post(post));
-            setValues(initialValues);
+            if (props.setPost) {
+              props.setPost(new Post(post));
+            } else {
+              setPost(new Post(post));
+              navigate(`/space/${post.spaceId}/posts/${post.id}`);
+            }
           })
           .catch((err) => {
             props.setAlert({

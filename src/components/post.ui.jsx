@@ -146,11 +146,15 @@ export default function PostUI(props = {}) {
             </aside>
             <aside className="ms-4">
               {post.id ? (
-                <button type="button" className="btn rounded-pill border">
+                <Link
+                  to={`/space/${post.spaceId}/posts/${post.id}`}
+                  type="button"
+                  className="btn rounded-pill border"
+                >
                   <span className="bi bi-chat-text"></span>
                   <span className="bi bi-dot"></span>
                   <span>{post.comments.length}</span>
-                </button>
+                </Link>
               ) : (
                 <Skeleton
                   width={50}
