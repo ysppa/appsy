@@ -1,3 +1,4 @@
+import spaceService from "../services/space.service";
 import Post from "./post.model";
 import Question from "./question.model";
 
@@ -24,5 +25,9 @@ export default class Space {
     this.questions = this.questions.filter(
       (question) => question.id !== questionId
     );
+  }
+
+  update(data) {
+    return spaceService.update(this.id, data);
   }
 }

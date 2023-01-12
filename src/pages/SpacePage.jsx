@@ -5,6 +5,7 @@ import spaceService from "./../services/space.service";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import SpaceAbout from "../components/space.about.component";
 import Questions from "../components/questions.component";
+import SpaceForm from "../components/space.form.component";
 import QuestionPage from "./QuestionPage";
 import PostPage from "./PostPage";
 import PostsPage from "./PostsPage";
@@ -15,6 +16,20 @@ export default function SpacePage(props) {
   const location = useLocation();
   const [tab, setTab] = useState(location.pathname.split("/")[3]);
   const [questionId, setQuestionId] = useState(location.pathname.split("/")[4]);
+  const updateSpace = () => {
+    props.setModalProps({
+      title: "Edit Space",
+      children: (
+        <SpaceForm
+          user={user}
+          modal={props.modal}
+          space={space}
+          setSpace={setSpace}
+        ></SpaceForm>
+      ),
+    });
+    props.modal.show();
+  };
 
   useEffect(() => {
     if (props.auth.state) {
@@ -54,7 +69,7 @@ export default function SpacePage(props) {
         }}
       ></header>
       <div className={`container ${questionId === undefined ? "" : "pt-4"}`}>
-        <header>
+        <header className="position-relative">
           <div className="">
             <div
               className={`h-100 pb-5 ${
@@ -86,6 +101,17 @@ export default function SpacePage(props) {
               </div>
             </div>
           </div>
+          {space.userId == user.id ? (
+            <button
+              type="button"
+              onClick={() => {
+                updateSpace();
+              }}
+              className="btn btn-link text-white fs-3 bi bi-pencil-square position-absolute top-0 end-0"
+            ></button>
+          ) : (
+            <></>
+          )}
         </header>
         <div className="card-body">
           <section className="row">

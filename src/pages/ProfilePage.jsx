@@ -123,13 +123,13 @@ export default function ProfilePage(props = {}) {
                           </button>
                         </aside>
                         <aside className="col-12 col-lg-12">
-                          <label htmlFor="description">
+                          <label htmlFor="headline">
                             Write a description about yourself
                           </label>
                           <Field
                             component="textarea"
-                            name="description"
-                            id="description"
+                            name="headline"
+                            id="headline"
                             className="form-control"
                           ></Field>
                         </aside>

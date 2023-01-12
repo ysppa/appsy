@@ -4,6 +4,9 @@ class SpaceService {
   get(spaceId, data = {}) {
     return http.get(`/spaces/${spaceId}`, data);
   }
+  update(spaceId, data = {}) {
+    return http.put(`/spaces/${spaceId}`, data);
+  }
   getAll(data = {}) {
     return http.get(`/spaces`, data);
   }
