@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { User } from "../models";
+import { Space, User } from "../models";
 import Skeleton from "react-loading-skeleton";
 
 export default function Avatar(props: any = {}) {
-  const [user, setUser] = useState(new User());
+  const [user, setUser] = useState<User | Space>();
 
   useEffect(() => {
-    setUser(new User(props.user));
+    if (props.user.className === "User") {
+      setUser(new User(props.user));
+    } else {
+      setUser(new Space(props.user));
+      console.log(props.user.fullLogo());
+    }
 
     return () => {};
   }, [props]);
 
-  return user.id ? (
+  return user && user.id ? (
     <figure
       className={`logo m-0 ${props.className}`}
       style={props.style}
@@ -19,7 +24,7 @@ export default function Avatar(props: any = {}) {
     >
       <img
         className="card-img-top h-100 w-100"
-        src={user.avatar || user.fullLogo()}
+        src={user.fullLogo()}
         alt={user.initials()}
       />
     </figure>

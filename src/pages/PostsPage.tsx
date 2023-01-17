@@ -52,7 +52,11 @@ export default function PostsPage(props: any = {}) {
               const post = new Post({ ...res.data.post, user: props.user });
               setValues({ content: "" });
               setPosts([post, ...posts]);
-              setAlert({ color: "success", message: res.data.message });
+              setAlert({
+                color: "success",
+                message: res.data.message,
+                show: true,
+              });
             })
             .catch((err) => {
               handleError(err, setAlert);

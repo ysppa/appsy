@@ -4,9 +4,11 @@ import * as Yup from "yup";
 import auth from "../services/auth.service";
 import Alert from "../components/alert.component";
 import { Link } from "react-router-dom";
+import { baseURL } from "../http-common";
 
 export default function LoginPage(props: any = {}) {
   const [alert, setAlert] = useState<any>({});
+  const coverPicture = baseURL + "/assets/images/CoverPicture.jpeg";
 
   const validation = Yup.object({
     username: Yup.string()
@@ -21,7 +23,7 @@ export default function LoginPage(props: any = {}) {
       <div
         className="Login"
         style={{
-          background: "url('/assets/images/CoverPicture.jpeg') no-repeat",
+          background: `url(${coverPicture}) no-repeat`,
           backgroundSize: "cover",
         }}
       >

@@ -5,7 +5,7 @@ import { Space } from "../models";
 import { Link } from "react-router-dom";
 
 export default function SpaceUI(props: any = {}) {
-  const [space, setSpace] = useState(new Space());
+  const [space, setSpace] = useState<Space>(new Space());
 
   useEffect(() => {
     if (props.space) {

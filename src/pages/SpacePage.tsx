@@ -18,7 +18,7 @@ export default function SpacePage(props: any = {}) {
   const location = useLocation();
   const [tab, setTab] = useState(location.pathname.split("/")[3]);
   const [questionId, setQuestionId] = useState(location.pathname.split("/")[4]);
-  const [form, setForm] = useState({ logo: "", coverPicture: "" });
+  const [form, setForm] = useState<any>({ logo: "", coverPicture: "" });
   const [alert, setAlert] = useState<any>();
 
   const updateSpace = () => {
@@ -36,28 +36,17 @@ export default function SpacePage(props: any = {}) {
     props.modal.show();
   };
 
-  const handleLogoChange = async (e: any) => {
+  const handleFileChange = async (e: any) => {
     try {
       const [file] = e.target.files;
       const url = URL.createObjectURL(file);
-      setForm({ ...form, logo: url });
+      form[e.target.name] = url;
+      setForm({ ...form });
       const formData = new FormData();
-      formData.append("logo", file);
-      const res = await space.uploadLogo(formData);
-      setSpace(new Space(res.data.space));
-    } catch (error) {
-      handleError(error, setAlert);
-    }
-  };
-
-  const handleCoverPictureChange = async (e: any) => {
-    try {
-      const [file] = e.target.files;
-      const url = URL.createObjectURL(file);
-      setForm({ ...form, coverPicture: url });
-      const formData = new FormData();
-      formData.append("coverPicture", file);
-      const res = await space.uploadCoverPicture(formData);
+      formData.append(e.target.name, file);
+      const res = await (e.target.name === "logo"
+        ? space.uploadLogo(formData)
+        : space.uploadCoverPicture(formData));
       setSpace(new Space(res.data.space));
     } catch (error) {
       handleError(error, setAlert);
@@ -138,7 +127,7 @@ export default function SpacePage(props: any = {}) {
                   type={"file"}
                   name="coverPicture"
                   id="coverPicture"
-                  onChange={handleCoverPictureChange}
+                  onChange={handleFileChange}
                   placeholder="CoverPicture"
                   className="form-control d-none"
                 />
@@ -164,7 +153,7 @@ export default function SpacePage(props: any = {}) {
                         type={"file"}
                         name="logo"
                         id="logo"
-                        onChange={handleLogoChange}
+                        onChange={handleFileChange}
                         placeholder="Logo"
                         className="form-control d-none"
                       />

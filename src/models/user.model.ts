@@ -4,7 +4,7 @@ import { ILogoAble } from "../interfaces/logoable.interface";
 
 export default class User implements ILogoAble {
   public className: string;
-  public id: number | null;
+  public id: number | undefined;
   public username: string;
   public email: string;
   public avatar: string;
@@ -14,7 +14,7 @@ export default class User implements ILogoAble {
     this.id = props.id || null;
     this.username = props.username || props.title || "Anonymous";
     this.email = props.email || "";
-    this.avatar = props.avatar || props.logo || "/assets/images/Logo.jpeg";
+    this.avatar = props.avatar || props.logo || "assets/images/Logo.jpeg";
   }
 
   initials(): string {
@@ -33,6 +33,10 @@ export default class User implements ILogoAble {
       post.votes.filter((v: Vote) => v.userId === this.id && v.voteType === -1)
         .length > 0
     );
+  }
+
+  getLogo(): string {
+    return this.avatar;
   }
 
   fullLogo(): string {

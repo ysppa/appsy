@@ -55,7 +55,7 @@ export default function QuestionPage(props: any = {}) {
           setQuestion(new Question(res.data.question));
         })
         .catch((err) => {
-          setAlert({ color: "danger", message: err.message });
+          setAlert({ color: "danger", message: err.message, show: true });
         });
     }
     return () => {};

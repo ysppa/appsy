@@ -15,7 +15,7 @@ import feedService from "../services/feed.service";
 export default function FeedsPage(props: any = {}) {
   const [auth, setAuthState] = useState<any>({});
   const [user, setUser] = useState(new User());
-  const [spaces, setSpaces] = useState([
+  const [spaces, setSpaces] = useState<Space[]>([
     new Space(),
     new Space(),
     new Space(),
@@ -87,7 +87,7 @@ export default function FeedsPage(props: any = {}) {
           setSpaces(res.data.spaces.map((s: any) => new Space(s)));
         })
         .catch((err) => {
-          setAlert({ color: "danger", message: err.message });
+          setAlert({ color: "danger", message: err.message, show: true });
         });
 
       feedService

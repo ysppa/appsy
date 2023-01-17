@@ -32,7 +32,7 @@ export default function Questions(props: any = {}) {
   //       setQuestions(questions);
   //     })
   //     .catch((err) => {
-  //       setAlert({ color: "danger", message: err.message });
+  //       setAlert({ color: "danger", message: err.message, show: true });
   //     });
   // };
 
@@ -77,10 +77,14 @@ export default function Questions(props: any = {}) {
               setQuestions([question, ...questions]);
               space.addQuestion(question);
               props.setSpace(new Space(space));
-              setAlert({ color: "success", message: res.data.message });
+              setAlert({
+                color: "success",
+                message: res.data.message,
+                show: true,
+              });
             })
             .catch((err) => {
-              setAlert({ color: "danger", message: err.message });
+              setAlert({ color: "danger", message: err.message, show: true });
               setSubmitting(false);
             });
         }}
