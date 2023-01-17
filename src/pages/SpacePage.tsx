@@ -53,6 +53,15 @@ export default function SpacePage(props: any = {}) {
     }
   };
 
+  const follow = async () => {
+    try {
+      const res: any = await space.follow();
+      setSpace(new Space(res.data.space));
+    } catch (err) {
+      handleError(err, setAlert);
+    }
+  };
+
   useEffect(() => {
     if (props.auth.state) {
       setUser(new User(props.auth.state.user));
@@ -164,8 +173,25 @@ export default function SpacePage(props: any = {}) {
                 </figure>
               </div>
               <div className="card-body mt-5 mx-4">
-                <h3 className="card-title">{space.name}</h3>
-                <div className="card-text">{space.description}</div>
+                <section className="d-flex justify-content-between">
+                  <aside>
+                    <h3 className="card-title">{space.name}</h3>
+                    <div className="card-text">{space.description}</div>
+                  </aside>
+                  <aside>
+                    <button
+                      type="button"
+                      onClick={follow}
+                      className="btn btn-outline-dark rounded-pill border"
+                    >
+                      {space.followedBy(user) ? (
+                        <span className="">Following</span>
+                      ) : (
+                        <span>Follow</span>
+                      )}
+                    </button>
+                  </aside>
+                </section>
               </div>
             </div>
           </div>

@@ -23,6 +23,9 @@ class SpaceService {
   create(userId, data) {
     return http.post(`/spaces/u/${userId}`, data);
   }
+  follow(id) {
+    return http.put(`/spaces/${id}/follow`);
+  }
 }
 
 export default new SpaceService();
