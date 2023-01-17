@@ -12,6 +12,8 @@
 .CoverPictureCard {
   height: 12rem;
   background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .LogoContainer {

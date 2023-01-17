@@ -7,6 +7,13 @@ class SpaceService {
   update(spaceId, data = {}) {
     return http.put(`/spaces/${spaceId}`, data);
   }
+  upload(spaceId, file, data = {}) {
+    return http.put(`/spaces/${spaceId}/upload/${file}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
   getAll(data = {}) {
     return http.get(`/spaces`, data);
   }
