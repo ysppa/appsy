@@ -69,6 +69,7 @@ export default function QuestionPage(props: any = {}) {
       </Link>
       <Alert {...alert} />
       <QuestionComponent
+        user={user}
         space={space}
         question={question}
         answer={reply}

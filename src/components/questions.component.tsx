@@ -130,6 +130,7 @@ export default function Questions(props: any = {}) {
             className="list-group-item list-group-item-action rounded border-0 p-0 my-2"
           >
             <QuestionComponent
+              user={user}
               space={space}
               question={question}
               answer={reply}

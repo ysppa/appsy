@@ -242,6 +242,7 @@ export default function FeedsPage(props: any = {}) {
                 >
                   {feed.className === "Question" ? (
                     <QuestionComponent
+                      user={user}
                       space={feed.space}
                       question={feed}
                       answer={reply}

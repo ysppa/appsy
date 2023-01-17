@@ -10,7 +10,6 @@ export default function Avatar(props: any = {}) {
       setUser(new User(props.user));
     } else {
       setUser(new Space(props.user));
-      console.log(props.user.fullLogo());
     }
 
     return () => {};

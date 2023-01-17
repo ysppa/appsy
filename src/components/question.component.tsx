@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { Question, Space } from "../models";
+import { Question, Space, User } from "../models";
 import { Link } from "react-router-dom";
+import questionService from "../services/question.service";
+import { handleError } from "../Utils/Common";
+import Alert from "./alert.component";
 
 export default function QuestionComponent(props: any = {}) {
+  const [currentUser, setCurrentUser] = useState<User>(new User());
   const [space, setSpace] = useState(new Space());
   const [question, setQuestion] = useState(new Question());
+  const [alert, setAlert] = useState<any>({});
+
+  const follow = async () => {
+    try {
+      const res: any = await question.follow();
+      setQuestion(new Question(res.data.question));
+    } catch (err) {
+      handleError(err, setAlert);
+    }
+  };
 
   useEffect(() => {
+    if (props.user) {
+      setCurrentUser(props.user);
+    }
     if (props.space) {
       setSpace(props.space);
     }
@@ -18,12 +35,13 @@ export default function QuestionComponent(props: any = {}) {
 
   return (
     <>
+      <Alert {...alert} />
       <div className={`card text-left border ${props.className}`}>
         <div className="card-body pb-0 position-relative">
           <h5 className="card-title">{question.title || <Skeleton />}</h5>
           {question.id ? (
             <Link
-              to={`/space/${space.id}/questions/${question.id}`}
+              to={`/space/${question.spaceId}/questions/${question.id}`}
               className="stretched-link"
             ></Link>
           ) : (
@@ -60,8 +78,19 @@ export default function QuestionComponent(props: any = {}) {
             </aside>
             <aside className="ms-4 d-flex align-items-center">
               {question.id ? (
-                <button type="button" className="btn rounded-pill">
-                  <span className="">Follow</span>
+                <button
+                  type="button"
+                  onClick={follow}
+                  className="btn rounded-pill"
+                >
+                  {question.followedBy(currentUser) ? (
+                    <span
+                      title="Unfollow"
+                      className="text-success bi bi-check-all"
+                    ></span>
+                  ) : (
+                    <span className="">Follow</span>
+                  )}
                 </button>
               ) : (
                 <Skeleton className="" width={95} />

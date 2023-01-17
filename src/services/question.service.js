@@ -1,4 +1,4 @@
-import http from "./../http-common";
+import http from "../http-common";
 
 class QuestionService {
   index(spaceId, data = {}) {
@@ -15,6 +15,9 @@ class QuestionService {
   }
   delete(spaceId, id) {
     return http.delete(`/questions/${id}?spaceId=${spaceId}`);
+  }
+  follow(id) {
+    return http.put(`/questions/${id}/follow`);
   }
 }
 
