@@ -108,6 +108,8 @@ export default function PostsPage(props: any = {}) {
               user={props.user}
               post={post}
               setAlert={setAlert}
+              modal={props.modal}
+              setModalProps={props.setModalProps}
               className="rounded-0 rounded-top border-bottom-0"
             />
             <CommentFormUI

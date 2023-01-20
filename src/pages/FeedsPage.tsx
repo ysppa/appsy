@@ -14,7 +14,7 @@ import feedService from "../services/feed.service";
 
 export default function FeedsPage(props: any = {}) {
   const [auth, setAuthState] = useState<any>({});
-  const [user, setUser] = useState(new User());
+  const [user, setUser] = useState<User>(new User());
   const [spaces, setSpaces] = useState<Space[]>([
     new Space(),
     new Space(),
@@ -84,7 +84,11 @@ export default function FeedsPage(props: any = {}) {
       spaceService
         .getAll({})
         .then((res) => {
-          setSpaces(res.data.spaces.map((s: any) => new Space(s)));
+          setSpaces(
+            res.data.spaces
+              .map((s: any) => new Space(s))
+              .sort((s: Space) => s.updatedAt)
+          );
         })
         .catch((err) => {
           setAlert({ color: "danger", message: err.message, show: true });
@@ -135,7 +139,7 @@ export default function FeedsPage(props: any = {}) {
               onClick={() => {
                 createSpace();
               }}
-              className="NewSpaceBtn NewBtn btn btn-primary mb-0 mb-lg-4"
+              className="NewSpaceBtn NewBtn btn btn-danger rounded-pill mb-0 mb-lg-4 w-100"
             >
               <span className="d-none d-lg-block">Create space</span>
               <span className="d-block d-lg-none bi bi-plus"></span>
@@ -156,7 +160,7 @@ export default function FeedsPage(props: any = {}) {
               <></>
             )}
           </aside>
-          <aside className="col-12 col-lg-9 px-0">
+          <aside className="col-12 col-lg-9 col-xl-6 px-0 me-auto">
             <section>
               <div className="card text-left">
                 <div className="card-body">
@@ -254,6 +258,8 @@ export default function FeedsPage(props: any = {}) {
                       post={feed}
                       answer={reply}
                       setAlert={setAlert}
+                      modal={props.modal}
+                      setModalProps={props.setModalProps}
                       className=""
                     />
                   )}

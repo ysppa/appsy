@@ -47,6 +47,8 @@ export default function PostPage(props: any = {}) {
         space={props.space}
         post={post}
         setAlert={setAlert}
+        modal={props.modal}
+        setModalProps={props.setModalProps}
         className="rounded-0 rounded-top border-bottom-0"
       />
       <Alert {...alert} />

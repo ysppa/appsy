@@ -17,6 +17,8 @@ export default class Space implements ILogoAble, IFollowable {
   public posts: any[];
   public questions: any[];
   public followers: any[];
+  public createdAt: Date;
+  public updatedAt: Date;
 
   constructor(props: any = {}) {
     this.className = "Space";
@@ -33,6 +35,8 @@ export default class Space implements ILogoAble, IFollowable {
       ? props.questions.map((q: any) => new Question(q))
       : [];
     this.followers = props.followers || [];
+    this.createdAt = new Date(props.createdAt || null);
+    this.updatedAt = new Date(props.updatedAt || null);
   }
 
   initials(): string {

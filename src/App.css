@@ -88,6 +88,12 @@ button:active:not(.btn-static),
   font-size: var(--bs-body-font-size);
 }
 
+input:checked + label,
+input:checked + label:hover {
+  background-color: black;
+  color: white;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

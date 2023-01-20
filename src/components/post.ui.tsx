@@ -3,11 +3,36 @@ import { Post, User } from "../models";
 import Avatar from "./avatar.component";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
+import ReportFormUI from "./report.form.ui";
 
 export default function PostUI(props: any = {}) {
   const [currentUser, setCurrentUser] = useState<User>(new User());
   const [post, setPost] = useState(new Post());
   const [user, setUser] = useState(new User());
+  const [cardMenuIsShown, setCardMenuIsShown] = useState<boolean>(false);
+  const report = () => {
+    props.setModalProps({
+      title: "What's wrong?",
+      children: (
+        <ReportFormUI
+          user={props.user}
+          modal={props.modal}
+          reportableType="post"
+          reportableId={post.id}
+          setAlert={props.setAlert}
+        />
+      ),
+    });
+    props.modal.show();
+  };
+
+  const showCardMenu = () => {
+    setCardMenuIsShown(!cardMenuIsShown);
+  };
+
+  const hideCardMenu = () => {
+    setCardMenuIsShown(false);
+  };
 
   useEffect(() => {
     if (props.user.id) {
@@ -32,6 +57,33 @@ export default function PostUI(props: any = {}) {
   return (
     <>
       <article className={`Post card border ${props.className}`}>
+        <div onMouseLeave={hideCardMenu} className="btn-group dropdown">
+          <button
+            className="btn bi bi-three-dots position-absolute end-0 top-0"
+            type="button"
+            id="showMenuBtn"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            onClick={showCardMenu}
+          ></button>
+          {cardMenuIsShown ? (
+            <div
+              className="dropdown-menu dropdown-menu-end dropdown-menu-dark show end-0"
+              aria-labelledby="showMenuBtn"
+            >
+              <button
+                onClick={report}
+                type="button"
+                className="dropdown-item btn-static"
+              >
+                Report
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
         <div className="card-body">
           <section className="d-flex">
             <aside className="">
